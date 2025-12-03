@@ -72,12 +72,13 @@ export default function SEO({
       <meta name="geo.position" content="41.5700;23.2800" />
       <meta name="ICBM" content="41.5700, 23.2800" />
 
-      {/* Open Graph / Facebook */}
+      {/* Open Graph / Facebook / Viber */}
       <meta property="og:type" content={type} />
       <meta property="og:url" content={fullUrl} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={fullImage} />
+      <meta property="og:image:url" content={fullImage} />
       <meta property="og:image:secure_url" content={fullImage} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
@@ -85,6 +86,10 @@ export default function SEO({
       <meta property="og:image:alt" content={title} />
       <meta property="og:locale" content="bg_BG" />
       <meta property="og:site_name" content="Туристическа агенция" />
+      
+      {/* Допълнителни тагове за Viber и други платформи */}
+      <meta name="image" content={fullImage} />
+      <link rel="image_src" href={fullImage} />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
