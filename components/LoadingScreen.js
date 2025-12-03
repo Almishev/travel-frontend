@@ -134,7 +134,7 @@ export default function LoadingScreen() {
         const elapsed = Date.now() - startTime;
         const isLoaded = checkPageLoaded();
 
-        // Ако е минало максималното време, скрий принудително
+        // Ако е минало максималното време (3 секунди), скрий принудително
         if (elapsed >= maxDisplayTime) {
           setIsHiding(true);
           setTimeout(() => {
@@ -148,7 +148,8 @@ export default function LoadingScreen() {
           return;
         }
 
-        // Ако страницата е заредена и е минало минималното време
+        // Ако страницата е заредена и е минало минималното време (0.8 секунди)
+        // Скрий веднага, без да чака до 3 секунди
         if (isLoaded && elapsed >= minDisplayTime) {
           setIsHiding(true);
           setTimeout(() => {
@@ -159,11 +160,14 @@ export default function LoadingScreen() {
               sessionStorage.setItem('pageLoaded', 'true');
             }
           }, 300);
-        } else if (!isLoaded) {
-          // Ако страницата все още не е заредена, провери отново след малко
+          return;
+        }
+
+        // Ако страницата все още не е заредена, провери отново след малко
+        if (!isLoaded) {
           setTimeout(tryHide, 100);
         } else {
-          // Ако е заредена, но не е минало достатъчно време
+          // Ако е заредена, но не е минало достатъчно време (минималното)
           setTimeout(tryHide, minDisplayTime - elapsed);
         }
       };
@@ -183,13 +187,15 @@ export default function LoadingScreen() {
       }
     };
 
-    // Ако страницата вече е заредена при монтиране
+    // Ако страницата вече е заредена при монтиране, започваме проверката
     if (document.readyState === 'complete') {
       hideLoading();
     } else {
       // Слушаме за зареждане
       window.addEventListener('load', handleLoad);
       document.addEventListener('readystatechange', handleReadyStateChange);
+      // Също така започваме проверката веднага (за случай че страницата е бавна)
+      hideLoading();
     }
 
     // Cleanup
