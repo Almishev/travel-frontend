@@ -63,7 +63,7 @@
     <div class="test-section">
         <h2>1. Проверка на изображението</h2>
         <p>Проверете дали изображението е достъпно:</p>
-        <div class="meta-tag">http://localhost:3000/натруфенка.png</div>
+        <div class="meta-tag">http://localhost:3000/logo.png</div>
         <button onclick="testImage()">Тествай изображение</button>
         <div id="imageStatus"></div>
         <img id="imagePreview" class="image-preview" style="display:none;" alt="Preview">
@@ -91,7 +91,7 @@
         async function testImage() {
             const statusDiv = document.getElementById('imageStatus');
             const previewImg = document.getElementById('imagePreview');
-            const imageUrl = 'http://localhost:3000/натруфенка.png';
+            const imageUrl = 'http://localhost:3000/logo.png';
             
             statusDiv.innerHTML = '<p>Тестване...</p>';
             previewImg.style.display = 'none';

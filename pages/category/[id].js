@@ -83,7 +83,7 @@ export default function CategoryPage({category, products, parentCategory}) {
         description={`Екскурзии в категория "${category.name}". ${products.length} налични.`}
         keywords={`${category.name}, категория, екскурзии, пътувания`}
         url={`/category/${category._id}`}
-        image="/натруфенка.png"
+        image="/logo.png"
       />
       <Header />
       <Center>

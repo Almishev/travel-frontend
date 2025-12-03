@@ -212,7 +212,7 @@ export default function Header() {
         <Wrapper>
           <Logo href={'/'}>
             <LogoImage 
-              src="/натруфенка.png" 
+              src="/logo.png" 
               alt="Туристическа агенция - Лого" 
               width={120} 
               height={48}

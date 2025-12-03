@@ -4,7 +4,7 @@ export default function SEO({
   title = 'Туристическа агенция - Екскурзии и пътувания',
   description = 'Организираме разнообразни пътувания и екскурзии за всяка възраст и вкус.',
   keywords = 'туристическа агенция, екскурзии, почивки, пътувания',
-  image = '/натруфенка.png',
+  image = '/logo.png',
   url,
   type = 'website',
   author,
@@ -89,7 +89,15 @@ export default function SEO({
       
       {/* Допълнителни тагове за Viber и други платформи */}
       <meta name="image" content={fullImage} />
+      <meta itemprop="image" content={fullImage} />
       <link rel="image_src" href={fullImage} />
+      
+      {/* Viber специфични тагове - важно за изпращане на съобщения */}
+      <meta name="viber:image" content={fullImage} />
+      <meta name="viber:preview" content={fullImage} />
+      
+      {/* Допълнителни тагове за по-добра поддръжка */}
+      <meta name="twitter:image:src" content={fullImage} />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />

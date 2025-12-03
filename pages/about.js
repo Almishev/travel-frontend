@@ -13,7 +13,7 @@ export default function AboutPage() {
         description="Туристическа агенция, организираща екскурзии и пътувания за всяка възраст и вкус."
         keywords="туристическа агенция, екскурзии, почивки, пътувания"
         url="/about"
-        image="/натруфенка.png"
+        image="/logo.png"
       />
       <Header />
       <Center>

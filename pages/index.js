@@ -19,7 +19,7 @@ export default function HomePage({featuredProduct,newProducts,popularDestination
         description="Организираме разнообразни пътувания и екскурзии за всяка възраст и вкус."
         keywords="екскурзии, пътувания, почивки, туристическа агенция"
         url="/"
-        image="/натруфенка.png"
+        image="/logo.png"
       />
       <div>
         <Header />
