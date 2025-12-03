@@ -6,7 +6,7 @@ import ButtonLink from "@/components/ButtonLink";
 const Bg = styled.div`
   background-color: #222;
   color:#fff;
-  padding: 50px 0;
+  padding: 0 0 50px 0;
 `;
 const Title = styled.h1`
   margin:0;

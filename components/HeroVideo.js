@@ -5,10 +5,10 @@ import { useState, useEffect, useRef } from "react";
 const OuterWrapper = styled.div`
   width: 100%;
   background: #000;
-  padding: 20px 0;
+  padding: 0;
+  margin: 0;
   
   @media (max-width: 768px) {
-    padding: 15px 0;
     body.menu-open & {
       display: none;
     }
@@ -18,13 +18,13 @@ const OuterWrapper = styled.div`
 const VideoWrapper = styled.div`
   position: relative;
   width: 100%;
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
   background: #000;
   border-radius: 12px;
   overflow: hidden;
   padding: 0;
-  aspect-ratio: 21 / 9;
+  aspect-ratio: 3 / 2;
 
   @media (max-width: 768px) {
     max-width: 100%;
@@ -36,7 +36,7 @@ const VideoWrapper = styled.div`
 const Video = styled.video`
   position: static;
   width: 100%;
-  height: 100%;
+  height: 90%;
   object-fit: cover;
   display: block;
 `;
