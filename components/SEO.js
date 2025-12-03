@@ -1,0 +1,102 @@
+import Head from 'next/head';
+
+export default function SEO({
+  title = 'Туристическа агенция - Екскурзии и пътувания',
+  description = 'Организираме разнообразни пътувания и екскурзии за всяка възраст и вкус.',
+  keywords = 'туристическа агенция, екскурзии, почивки, пътувания',
+  image = '/натруфенка.png',
+  url,
+  type = 'website',
+  author,
+  structuredData,
+  breadcrumbs,
+}) {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lms-frontend-virid-kappa.vercel.app';
+  const fullUrl = url ? `${siteUrl}${url}` : siteUrl;
+  const fullImage = image.startsWith('http') ? image : `${siteUrl}${image}`;
+
+  // Structured Data за библиотека (Library + LocalBusiness)
+  const defaultStructuredData = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'TravelAgency',
+      name: 'Туристическа агенция',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Гоце Делчев',
+        addressRegion: 'Гоце Делчев',
+        addressCountry: 'BG',
+        streetAddress: 'град Гоце Делчев',
+        postalCode: '2900',
+      },
+      url: siteUrl,
+      description: 'Туристическа агенция, предлагаща екскурзии и пътувания.',
+      telephone: '+359 877 382 224',
+      email: 'info@library-mosomishche.bg',
+    },
+  ];
+
+  return (
+    <Head>
+      {/* Основни meta tags */}
+      <title>{title}</title>
+      <meta name="description" content={description} />
+      <meta name="keywords" content={keywords} />
+      <meta name="author" content={author || 'Туристическа агенция'} />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="language" content="bg" />
+      <meta name="geo.region" content="BG-01" />
+      <meta name="geo.placename" content="Гоце Делчев, Гоце Делчев" />
+      <meta name="geo.position" content="41.5700;23.2800" />
+      <meta name="ICBM" content="41.5700, 23.2800" />
+
+      {/* Open Graph / Facebook */}
+      <meta property="og:type" content={type} />
+      <meta property="og:url" content={fullUrl} />
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
+      <meta property="og:image" content={fullImage} />
+      <meta property="og:locale" content="bg_BG" />
+      <meta property="og:site_name" content="Туристическа агенция" />
+
+      {/* Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:url" content={fullUrl} />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content={fullImage} />
+
+      {/* Canonical URL */}
+      <link rel="canonical" href={fullUrl} />
+
+      {/* Structured Data */}
+      {(structuredData || defaultStructuredData).map((data, index) => (
+        <script
+          key={index}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(data),
+          }}
+        />
+      ))}
+      {breadcrumbs && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'BreadcrumbList',
+              itemListElement: breadcrumbs.map((crumb, index) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                name: crumb.name,
+                item: `${siteUrl}${crumb.url}`,
+              })),
+            }),
+          }}
+        />
+      )}
+    </Head>
+  );
+}
+
