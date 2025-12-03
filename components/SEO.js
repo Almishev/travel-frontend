@@ -11,7 +11,7 @@ export default function SEO({
   structuredData,
   breadcrumbs,
 }) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lms-frontend-virid-kappa.vercel.app';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://travel-frontend-theta-nine.vercel.app';
   const fullUrl = url ? `${siteUrl}${url}` : siteUrl;
   const fullImage = image.startsWith('http') ? image : `${siteUrl}${image}`;
 

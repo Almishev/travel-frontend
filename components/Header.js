@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import BarsIcon from "@/components/icons/Bars";
 
 const StyledHeader = styled.header`
-  background-color: #222;
+  background-color: #d3d3d3;
   padding: 12px 0;
 `;
 const HeaderInner = styled.div`
@@ -14,7 +14,7 @@ const HeaderInner = styled.div`
   padding: 0 32px;
 `;
 const Logo = styled(Link)`
-  color:#fff;
+  color:#000;
   text-decoration:none;
   position: relative;
   z-index: 3;
@@ -88,16 +88,17 @@ const StyledNav = styled.nav`
 `;
 const NavLink = styled(Link)`
   display: block;
-  color:#aaa;
+  color:#000;
   text-decoration:none;
   padding: 10px 0;
   text-align: center;
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 700;
+  text-transform: uppercase;
   transition: color 0.3s ease, transform 0.2s ease;
   
   &:hover {
-    color: #fff;
+    color: #333;
     transform: translateY(-2px);
   }
   
@@ -114,7 +115,8 @@ const NavLink = styled(Link)`
     padding:0;
     text-align: left;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 700;
+    text-transform: uppercase;
   }
 `;
 
@@ -147,15 +149,15 @@ const UserArea = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  color: #fff;
+  color: #000;
   font-size: 14px;
   
   button {
     background: transparent;
-    border: 1px solid #fff;
+    border: 1px solid #000;
     border-radius: 4px;
     padding: 4px 10px;
-    color: #fff;
+    color: #000;
     cursor: pointer;
     font-size: 13px;
   }
@@ -234,7 +236,7 @@ export default function Header() {
             <NavLink href={'/destinations'} onClick={() => setMobileNavActive(false)}>Дестинации</NavLink>
             <NavLink href={'/account'} onClick={() => setMobileNavActive(false)}>Акаунт</NavLink>
             {isLoggedIn && (
-              <div style={{marginTop: '24px', textAlign: 'center', color: '#fff'}}>
+              <div style={{marginTop: '24px', textAlign: 'center', color: '#000'}}>
                 <div style={{marginBottom: '8px'}}>
                   Здравей, {userName || userEmail}
                 </div>
@@ -245,10 +247,10 @@ export default function Header() {
                   }}
                   style={{
                     background: 'transparent',
-                    border: '1px solid #fff',
+                    border: '1px solid #000',
                     borderRadius: '4px',
                     padding: '6px 14px',
-                    color: '#fff',
+                    color: '#000',
                     fontSize: '14px',
                     cursor: 'pointer',
                   }}
