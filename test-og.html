@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Graph Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; }
+        h2 { color: #666; margin-top: 0; }
+        .meta-tag {
+            background: #f0f0f0;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            font-family: monospace;
+            word-break: break-all;
+        }
+        .image-preview {
+            max-width: 100%;
+            margin: 20px 0;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        button {
+            background: #b8860b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px 10px 0;
+        }
+        button:hover {
+            background: #9a7209;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Open Graph Image Test</h1>
+    
+    <div class="test-section">
+        <h2>1. Проверка на изображението</h2>
+        <p>Проверете дали изображението е достъпно:</p>
+        <div class="meta-tag">http://localhost:3000/натруфенка.png</div>
+        <button onclick="testImage()">Тествай изображение</button>
+        <div id="imageStatus"></div>
+        <img id="imagePreview" class="image-preview" style="display:none;" alt="Preview">
+    </div>
+
+    <div class="test-section">
+        <h2>2. Проверка на Meta таговете</h2>
+        <p>Отворете <a href="http://localhost:3000" target="_blank">http://localhost:3000</a> и проверете:</p>
+        <ol>
+            <li>Натиснете <strong>F12</strong> за Developer Tools</li>
+            <li>Отидете на таб <strong>Elements</strong> или <strong>Elements</strong></li>
+            <li>Намерете <code>&lt;head&gt;</code> секцията</li>
+            <li>Проверете дали има <code>og:image</code> тагове</li>
+        </ol>
+        <button onclick="checkMetaTags()">Провери Meta таговете</button>
+        <div id="metaStatus"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Извлечени Meta тагове</h2>
+        <div id="metaTags"></div>
+    </div>
+
+    <script>
+        async function testImage() {
+            const statusDiv = document.getElementById('imageStatus');
+            const previewImg = document.getElementById('imagePreview');
+            const imageUrl = 'http://localhost:3000/натруфенка.png';
+            
+            statusDiv.innerHTML = '<p>Тестване...</p>';
+            previewImg.style.display = 'none';
+            
+            try {
+                const response = await fetch(imageUrl, { method: 'HEAD' });
+                if (response.ok) {
+                    statusDiv.innerHTML = '<div class="status success">✅ Изображението е достъпно!</div>';
+                    previewImg.src = imageUrl;
+                    previewImg.style.display = 'block';
+                    previewImg.onerror = () => {
+                        statusDiv.innerHTML += '<div class="status error">❌ Изображението не може да се зареди</div>';
+                    };
+                } else {
+                    statusDiv.innerHTML = '<div class="status error">❌ Изображението не е достъпно (Status: ' + response.status + ')</div>';
+                }
+            } catch (error) {
+                statusDiv.innerHTML = '<div class="status error">❌ Грешка: ' + error.message + '</div>';
+            }
+        }
+
+        async function checkMetaTags() {
+            const statusDiv = document.getElementById('metaStatus');
+            const tagsDiv = document.getElementById('metaTags');
+            
+            statusDiv.innerHTML = '<p>Зареждане...</p>';
+            tagsDiv.innerHTML = '';
+            
+            try {
+                const response = await fetch('http://localhost:3000');
+                const html = await response.text();
+                
+                // Извличане на meta таговете
+                const ogImageMatch = html.match(/<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']/i);
+                const ogTitleMatch = html.match(/<meta\s+property=["']og:title["']\s+content=["']([^"']+)["']/i);
+                const ogDescMatch = html.match(/<meta\s+property=["']og:description["']\s+content=["']([^"']+)["']/i);
+                
+                if (ogImageMatch) {
+                    statusDiv.innerHTML = '<div class="status success">✅ Намерени Open Graph тагове!</div>';
+                    tagsDiv.innerHTML = `
+                        <div class="meta-tag"><strong>og:image:</strong> ${ogImageMatch[1]}</div>
+                        <div class="meta-tag"><strong>og:title:</strong> ${ogTitleMatch ? ogTitleMatch[1] : 'Не е намерен'}</div>
+                        <div class="meta-tag"><strong>og:description:</strong> ${ogDescMatch ? ogDescMatch[1] : 'Не е намерен'}</div>
+                    `;
+                } else {
+                    statusDiv.innerHTML = '<div class="status error">❌ Не са намерени og:image тагове</div>';
+                }
+            } catch (error) {
+                statusDiv.innerHTML = '<div class="status error">❌ Грешка: ' + error.message + '<br>Уверете се, че сървърът работи на http://localhost:3000</div>';
+            }
+        }
+    </script>
+</body>
+</html>
+

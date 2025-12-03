@@ -11,7 +11,15 @@ export default function SEO({
   structuredData,
   breadcrumbs,
 }) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://travel-frontend-theta-nine.vercel.app';
+  // За локална среда използваме localhost, иначе production URL
+  // Проверяваме дали сме на клиента и дали hostname е localhost
+  let siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  if (!siteUrl && typeof window !== 'undefined') {
+    siteUrl = window.location.origin; // Автоматично взима текущия origin (localhost:3000 или production)
+  }
+  if (!siteUrl) {
+    siteUrl = 'https://travel-frontend-theta-nine.vercel.app'; // Fallback за SSR
+  }
   const fullUrl = url ? `${siteUrl}${url}` : siteUrl;
   
   // Обработка на изображенията - ако е абсолютен URL (http/https), използваме го директно
@@ -24,7 +32,9 @@ export default function SEO({
     fullImage = `https:${image}`;
   } else {
     // Относителен път - добавяме siteUrl
-    fullImage = `${siteUrl}${image.startsWith('/') ? image : '/' + image}`;
+    const imagePath = image.startsWith('/') ? image : '/' + image;
+    // Използваме encodeURI за правилно кодиране на целия път, включително кирилица
+    fullImage = `${siteUrl}${encodeURI(imagePath)}`;
   }
 
   // Structured Data за библиотека (Library + LocalBusiness)
@@ -68,9 +78,11 @@ export default function SEO({
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={fullImage} />
+      <meta property="og:image:secure_url" content={fullImage} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image:type" content="image/png" />
+      <meta property="og:image:alt" content={title} />
       <meta property="og:locale" content="bg_BG" />
       <meta property="og:site_name" content="Туристическа агенция" />
 

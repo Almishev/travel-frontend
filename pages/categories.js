@@ -62,6 +62,7 @@ export default function CategoriesPage({categories}) {
         description={`Категории екскурзии – почивки, уикенд пътувания, city break и други.`}
         keywords="категории екскурзии, почивки, уикенд, city break, туристическа агенция"
         url="/categories"
+        image="/натруфенка.png"
       />
       <Header />
       <Center>

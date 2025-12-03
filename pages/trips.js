@@ -158,6 +158,7 @@ export default function TripsPage({
         title={seoTitle}
         description={seoDescription}
         url={basePath}
+        image="/натруфенка.png"
       />
       <Header />
       <Center>
