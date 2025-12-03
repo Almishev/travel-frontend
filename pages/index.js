@@ -9,8 +9,9 @@ import SEO from "@/components/SEO";
 import AboutSection from "@/components/AboutSection";
 import FAQSection from "@/components/FAQSection";
 import PopularDestinations from "@/components/PopularDestinations";
+import {Settings} from "@/models/Settings";
 
-export default function HomePage({featuredProduct,newProducts,popularDestinations}) {
+export default function HomePage({featuredProduct,newProducts,popularDestinations, heroSettings}) {
   return (
     <>
       <SEO 
@@ -21,7 +22,7 @@ export default function HomePage({featuredProduct,newProducts,popularDestination
       />
       <div>
         <Header />
-        <HeroVideo />
+        <HeroVideo heroSettings={heroSettings} />
         {featuredProduct && <Featured product={featuredProduct} />}
         <NewProducts products={newProducts} />
         <PopularDestinations destinations={popularDestinations} />
@@ -36,11 +37,14 @@ export default function HomePage({featuredProduct,newProducts,popularDestination
 export async function getServerSideProps() {
   try {
     await mongooseConnect();
-    
-    // Взимаме featured product ID от settings
-    const {Settings} = await import('@/models/Settings');
-    const featuredProductSetting = await Settings.findOne({name: 'featuredProductId'});
-    const featuredProductId = featuredProductSetting?.value;
+    // Взимаме всички настройки
+    const allSettings = await Settings.find();
+    const settingsMap = {};
+    allSettings.forEach((setting) => {
+      settingsMap[setting.name] = setting.value;
+    });
+
+    const featuredProductId = settingsMap.featuredProductId;
     
     let featuredProduct = null;
     if (featuredProductId) {
@@ -120,6 +124,12 @@ export async function getServerSideProps() {
         featuredProduct: featuredProduct ? JSON.parse(JSON.stringify(featuredProduct)) : null,
         newProducts: JSON.parse(JSON.stringify(newProducts)),
         popularDestinations: JSON.parse(JSON.stringify(popularDestinations)),
+        heroSettings: {
+          heroVideoDesktop: settingsMap.heroVideoDesktop || '',
+          heroVideoMobile: settingsMap.heroVideoMobile || '',
+          heroTitle: settingsMap.heroTitle || 'Туристическа агенция - Екскурзии и пътувания',
+          heroSubtitle: settingsMap.heroSubtitle || 'Организираме разнообразни пътувания и екскурзии за всяка възраст и вкус.',
+        },
       },
     };
   } catch (error) {
@@ -129,6 +139,7 @@ export async function getServerSideProps() {
         featuredProduct: null,
         newProducts: [],
         popularDestinations: [],
+        heroSettings: null,
       },
     };
   }

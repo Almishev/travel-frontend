@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
-import axios from "axios";
 
 const VideoWrapper = styled.div`
   position: relative;
@@ -11,6 +10,11 @@ const VideoWrapper = styled.div`
   align-items: center;
   justify-content: center;
   padding: 0;
+  min-height: 260px;
+
+  @media (min-width: 768px) {
+    min-height: 420px;
+  }
 
   @media (max-width: 768px) {
     body.menu-open & {
@@ -21,12 +25,21 @@ const VideoWrapper = styled.div`
 
 const Video = styled.video`
   position: static;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 80vh;
-  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
+`;
+
+const Poster = styled.div`
+  position: absolute;
+  inset: 0;
+  background-image: url('/hero-poster.jpg');
+  background-size: cover;
+  background-position: center;
+  transition: opacity 0.4s ease;
+  opacity: ${(props) => (props.hidden ? 0 : 1)};
+  pointer-events: none;
 `;
 
 const Overlay = styled.div`
@@ -82,29 +95,34 @@ const ButtonCTA = styled.a`
   }
 `;
 
-export default function HeroVideo() {
-  const [settings, setSettings] = useState({
-    heroVideoDesktop: '',
-    heroVideoMobile: '',
-    heroTitle: 'Natrufenka',
-    heroSubtitle: 'ръчно изработени бижута'
-  });
-  const [currentVideo, setCurrentVideo] = useState('');
+const defaultSettings = {
+  heroVideoDesktop: '',
+  heroVideoMobile: '',
+  heroTitle: 'Туристическа агенция',
+  heroSubtitle: 'организираме разнообразни пътувания и екскурзии',
+};
+
+export default function HeroVideo({ heroSettings }) {
+  const initialSettings = {
+    ...defaultSettings,
+    ...(heroSettings || {}),
+  };
+
+  const [settings] = useState(initialSettings);
+  const [currentVideo, setCurrentVideo] = useState(
+    initialSettings.heroVideoDesktop || initialSettings.heroVideoMobile || ''
+  );
+  const [videoReady, setVideoReady] = useState(false);
   const videoRef = useRef(null);
 
   useEffect(() => {
-    fetchSettings();
-  }, []);
-
-  useEffect(() => {
-    // Set initial video based on screen size
+    if (typeof window === 'undefined') return;
     updateVideoSource();
-    
-    // Listen for window resize
+
     const handleResize = () => {
       updateVideoSource();
     };
-    
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [settings.heroVideoDesktop, settings.heroVideoMobile]);
@@ -117,6 +135,7 @@ export default function HeroVideo() {
   }, [currentVideo]);
 
   function updateVideoSource() {
+    if (typeof window === 'undefined') return;
     const isMobile = window.innerWidth <= 768;
     
     if (isMobile && settings.heroVideoMobile) {
@@ -129,39 +148,23 @@ export default function HeroVideo() {
     }
   }
 
-  function fetchSettings() {
-    axios.get('/api/settings').then(result => {
-      setSettings(prev => ({
-        ...prev,
-        heroVideoDesktop: result.data.heroVideoDesktop || '',
-        heroVideoMobile: result.data.heroVideoMobile || '',
-        heroTitle: result.data.heroTitle || 'Natrufenka',
-        heroSubtitle: result.data.heroSubtitle || 'ръчно изработени бижута'
-      }));
-    }).catch(error => {
-      console.log('Error fetching settings:', error);
-      // Keep default values if API fails
-    });
-  }
-
-  // Don't render if no videos are set
-  if (!currentVideo) {
-    return null;
-  }
-
   return (
     <VideoWrapper>
-      <Video
-        ref={videoRef}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        key={currentVideo} // Force re-render when video changes
-      >
-        <source src={currentVideo} type="video/mp4" />
-      </Video>
+      <Poster hidden={videoReady} />
+      {currentVideo && (
+        <Video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          key={currentVideo} // Force re-render when video changes
+          onCanPlay={() => setVideoReady(true)}
+        >
+          <source src={currentVideo} type="video/mp4" />
+        </Video>
+      )}
       <Overlay>
         <div>
           <h1>{settings.heroTitle}</h1>
