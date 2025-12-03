@@ -2,21 +2,34 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 
+const OuterWrapper = styled.div`
+  width: 100%;
+  background: #000;
+  padding: 20px 0;
+  
+  @media (max-width: 768px) {
+    padding: 15px 0;
+    body.menu-open & {
+      display: none;
+    }
+  }
+`;
+
 const VideoWrapper = styled.div`
   position: relative;
   width: 100%;
-  max-width: 1200px;
+  max-width: 900px;
   margin: 0 auto;
   background: #000;
   border-radius: 12px;
   overflow: hidden;
   padding: 0;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 21 / 9;
 
   @media (max-width: 768px) {
-    body.menu-open & {
-      display: none;
-    }
+    max-width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 0;
   }
 `;
 
@@ -146,34 +159,36 @@ export default function HeroVideo({ heroSettings }) {
   }
 
   return (
-    <VideoWrapper>
-      <Poster hidden={videoReady} />
-      {currentVideo && (
-        <Video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          key={currentVideo} // Force re-render when video changes
-          onCanPlay={() => setVideoReady(true)}
-        >
-          <source src={currentVideo} type="video/mp4" />
-        </Video>
-      )}
-      <Overlay>
-        <div>
-          <h1>{settings.heroTitle}</h1>
-          <p>{settings.heroSubtitle}</p>
-        </div>
-        <Link href="/trips" passHref legacyBehavior>
-          <ButtonCTA>
-            Разгледайте екскурзиите
-          </ButtonCTA>
-        </Link>
-      </Overlay>
-    </VideoWrapper>
+    <OuterWrapper>
+      <VideoWrapper>
+        <Poster hidden={videoReady} />
+        {currentVideo && (
+          <Video
+            ref={videoRef}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            key={currentVideo} // Force re-render when video changes
+            onCanPlay={() => setVideoReady(true)}
+          >
+            <source src={currentVideo} type="video/mp4" />
+          </Video>
+        )}
+        <Overlay>
+          <div>
+            <h1>{settings.heroTitle}</h1>
+            <p>{settings.heroSubtitle}</p>
+          </div>
+          <Link href="/trips" passHref legacyBehavior>
+            <ButtonCTA>
+              Разгледайте екскурзиите
+            </ButtonCTA>
+          </Link>
+        </Overlay>
+      </VideoWrapper>
+    </OuterWrapper>
   );
 }
 
