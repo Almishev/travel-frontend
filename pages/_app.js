@@ -2,6 +2,7 @@ import {createGlobalStyle} from "styled-components";
 import {WishlistProvider} from "@/components/WishlistContext";
 import {Toaster} from "react-hot-toast";
 import ViberChatButton from "@/components/ViberChatButton";
+import LoadingScreen from "@/components/LoadingScreen";
 
 const GlobalStyles = createGlobalStyle`
   body{
@@ -22,6 +23,7 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <GlobalStyles />
+      <LoadingScreen />
       <WishlistProvider>
         <Component {...pageProps} />
         {/*}
