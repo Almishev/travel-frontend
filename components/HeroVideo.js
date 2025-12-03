@@ -5,16 +5,13 @@ import { useState, useEffect, useRef } from "react";
 const VideoWrapper = styled.div`
   position: relative;
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-radius: 12px;
+  overflow: hidden;
   padding: 0;
-  min-height: 260px;
-
-  @media (min-width: 768px) {
-    min-height: 420px;
-  }
+  aspect-ratio: 16 / 9;
 
   @media (max-width: 768px) {
     body.menu-open & {
