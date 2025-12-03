@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import BarsIcon from "@/components/icons/Bars";
 
 const StyledHeader = styled.header`
-  background-color: #d3d3d3;
+  background-color: #b8860b;
   padding: 12px 0;
 `;
 const HeaderInner = styled.div`
@@ -23,6 +23,11 @@ const Logo = styled(Link)`
   gap: 12px;
   font-size: 22px;
   font-weight: 600;
+  transition: color 0.3s ease;
+  
+  &:hover {
+    color: #fff;
+  }
   
   @media screen and (max-width: 768px) {
     gap: 10px;
@@ -68,7 +73,7 @@ const MobileNav = styled.nav`
     left: 0;
     right: 0;
     padding: 120px 20px 20px;
-    background-color: #222;
+    background-color: #b8860b;
     z-index: 9998;
     overflow-y: auto;
   }
@@ -98,7 +103,7 @@ const NavLink = styled(Link)`
   transition: color 0.3s ease, transform 0.2s ease;
   
   &:hover {
-    color: #333;
+    color: #fff;
     transform: translateY(-2px);
   }
   
@@ -107,6 +112,7 @@ const NavLink = styled(Link)`
     font-size: 20px;
     
     &:hover {
+      color: #fff;
       transform: none;
     }
   }
@@ -125,7 +131,7 @@ const NavButton = styled.button`
   width: 44px;
   height: 44px;
   border:0;
-  color: white;
+  color: #000;
   cursor: pointer;
   display: none;
   align-items: center;
@@ -212,7 +218,7 @@ export default function Header() {
               height={48}
               style={{objectFit: 'contain'}}
             />
-            Туристическа агенция
+            Friendly Travel
           </Logo>
           <NavArea>
             <StyledNav>

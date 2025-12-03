@@ -59,10 +59,10 @@ const StarBtn = styled.button`
   font-size: 22px;
   line-height: 1;
   cursor: pointer;
-  color: ${props => props.active ? '#065f46' : '#cbd5e1'};
+  color: ${props => props.active ? '#b8860b' : '#cbd5e1'};
   padding: 0;
   transition: color .15s ease;
-  &:hover { color: ${props => props.active ? '#064e3b' : '#94a3b8'}; }
+  &:hover { color: ${props => props.active ? '#9a7209' : '#94a3b8'}; }
 `;
 const InputEl = styled.input`
   width: 100%;
@@ -135,12 +135,12 @@ const PhoneNumber = styled.div`
 `;
 
 const PhoneLink = styled.a`
-  color: #0D3D29;
+  color: #b8860b;
   text-decoration: none;
   transition: color 0.3s ease;
   
   &:hover {
-    color: #065f46;
+    color: #9a7209;
     text-decoration: underline;
   }
 `;
@@ -188,7 +188,12 @@ export default function TripPage({product}) {
     ? `${product.description.substring(0, 150)}...` 
     : `Екскурзия "${product.title}" до ${product.destinationCountry || ''} ${product.destinationCity || ''}.`;
   
-  const tripImage = product.images?.[0] || '/натруфенка.png';
+  // Взимаме първото изображение или fallback към логото
+  // Ако изображението е от S3 или друг външен източник, използваме го директно
+  let tripImage = '/натруфенка.png';
+  if (product.images?.[0]) {
+    tripImage = product.images[0];
+  }
   const breadcrumbs = [
     { name: 'Начало', url: '/' },
     { name: 'Всички екскурзии', url: '/trips' },
@@ -258,7 +263,7 @@ export default function TripPage({product}) {
               </CTAText>
               <PhoneNumber>
                 <IconWrapper>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" style={{width: '24px', height: '24px', color: '#0D3D29'}}>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" style={{width: '24px', height: '24px', color: '#b8860b'}}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102c-.125-.501-.575-.852-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
                   </svg>
                 </IconWrapper>
@@ -276,15 +281,16 @@ export default function TripPage({product}) {
                     fontWeight: '500',
                     borderRadius: '5px',
                     textDecoration: 'none',
-                    backgroundColor: '#0D3D29',
-                    color: '#fff',
-                    border: '1px solid #0D3D29',
+                    backgroundColor: '#b8860b',
+                    color: '#000',
+                    border: '1px solid #b8860b',
                     flex: '1',
                     minWidth: '200px',
                     transition: 'all 0.3s ease',
                     fontFamily: 'Poppins, sans-serif'
                   }}
                   onMouseEnter={(e) => {
+                    e.currentTarget.style.color = '#fff';
                     e.currentTarget.style.filter = 'brightness(1.1)';
                     e.currentTarget.style.transform = 'translateY(-1px)';
                     e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
@@ -293,6 +299,7 @@ export default function TripPage({product}) {
                     e.currentTarget.style.filter = 'none';
                     e.currentTarget.style.transform = 'none';
                     e.currentTarget.style.boxShadow = 'none';
+                    e.currentTarget.style.color = '#000';
                   }}
                 >
                   <IconWrapper>

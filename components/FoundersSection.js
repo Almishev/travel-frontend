@@ -49,7 +49,7 @@ const PhotoWrapper = styled.div`
   margin: 0 auto 20px;
   border-radius: 50%;
   overflow: hidden;
-  border: 4px solid #0D3D29;
+  border: 4px solid #b8860b;
   background-color: #f3f3f3;
   display: flex;
   align-items: center;
@@ -65,7 +65,7 @@ const FounderPhoto = styled(Image)`
 const PlaceholderPhoto = styled.div`
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #0D3D29 0%, #065f46 100%);
+  background: linear-gradient(135deg, #b8860b 0%, #9a7209 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -84,13 +84,13 @@ const FounderName = styled.h4`
 const FounderPhone = styled.a`
   display: block;
   font-size: 1.1rem;
-  color: #0D3D29;
+  color: #b8860b;
   text-decoration: none;
   margin-bottom: 20px;
   font-weight: 500;
   
   &:hover {
-    color: #065f46;
+    color: #9a7209;
     text-decoration: underline;
   }
 `;

@@ -177,7 +177,7 @@ export default function TripsPage({
               onChange={(e) => setSearchTerm(e.target.value)}
               style={{flex: '1 1 300px', padding: '10px', border: '1px solid #ddd', borderRadius: '5px', minWidth: '200px'}}
             />
-            <button type="submit" style={{padding: '10px 20px', background: '#0D3D29', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', fontWeight: '500', transition: 'all 0.3s ease'}} onMouseEnter={(e) => { e.currentTarget.style.filter = 'brightness(1.1)'; e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)'; }} onMouseLeave={(e) => { e.currentTarget.style.filter = 'none'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none'; }}>
+            <button type="submit" style={{padding: '10px 20px', background: '#b8860b', color: '#000', border: 'none', borderRadius: '5px', cursor: 'pointer', fontWeight: '500', transition: 'all 0.3s ease'}} onMouseEnter={(e) => { e.currentTarget.style.filter = 'brightness(1.1)'; e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)'; e.currentTarget.style.color = '#fff'; }} onMouseLeave={(e) => { e.currentTarget.style.filter = 'none'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.color = '#000'; }}>
               Търси
             </button>
             {hasActiveFilters && (

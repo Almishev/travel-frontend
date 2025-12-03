@@ -2,11 +2,14 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 
-const OuterWrapper = styled.div`
+const VideoWrapper = styled.div`
+  position: relative;
   width: 100%;
   background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 0;
-  margin: 0;
   
   @media (max-width: 768px) {
     body.menu-open & {
@@ -15,29 +18,13 @@ const OuterWrapper = styled.div`
   }
 `;
 
-const VideoWrapper = styled.div`
-  position: relative;
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
-  background: #000;
-  border-radius: 12px;
-  overflow: hidden;
-  padding: 0;
-  aspect-ratio: 3 / 2;
-
-  @media (max-width: 768px) {
-    max-width: 100%;
-    aspect-ratio: 3 / 4;
-    border-radius: 0;
-  }
-`;
-
 const Video = styled.video`
   position: static;
-  width: 100%;
-  height: 90%;
-  object-fit: cover;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
   display: block;
 `;
 
@@ -93,15 +80,50 @@ const ButtonCTA = styled.a`
   text-decoration: none;
   background: transparent;
   color: #fff;
-  border: 1px solid #fff;
-  border-radius: 5px;
+  border: 2px solid #fff;
+  border-radius: 8px;
   font-size: 1rem;
-  padding: 10px 22px;
-  transition: opacity .2s ease;
-  &:hover { opacity: .9; }
+  font-weight: 600;
+  padding: 12px 28px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform: translateY(0);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  &:hover {
+    background: #fff;
+    color: #b8860b;
+    border-color: #fff;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.4), 0 0 20px rgba(255, 255, 255, 0.3);
+    
+    &::before {
+      left: 100%;
+    }
+  }
+  
+  &:active {
+    transform: translateY(-1px) scale(1.02);
+  }
+  
   @media (max-width: 768px) {
     font-size: 0.9rem;
-    padding: 8px 16px;
+    padding: 10px 20px;
+    
+    &:hover {
+      transform: translateY(-2px) scale(1.03);
+    }
   }
 `;
 
@@ -159,36 +181,34 @@ export default function HeroVideo({ heroSettings }) {
   }
 
   return (
-    <OuterWrapper>
-      <VideoWrapper>
-        <Poster hidden={videoReady} />
-        {currentVideo && (
-          <Video
-            ref={videoRef}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            key={currentVideo} // Force re-render when video changes
-            onCanPlay={() => setVideoReady(true)}
-          >
-            <source src={currentVideo} type="video/mp4" />
-          </Video>
-        )}
-        <Overlay>
-          <div>
-            <h1>{settings.heroTitle}</h1>
-            <p>{settings.heroSubtitle}</p>
-          </div>
-          <Link href="/trips" passHref legacyBehavior>
-            <ButtonCTA>
-              Разгледайте екскурзиите
-            </ButtonCTA>
-          </Link>
-        </Overlay>
-      </VideoWrapper>
-    </OuterWrapper>
+    <VideoWrapper>
+      <Poster hidden={videoReady} />
+      {currentVideo && (
+        <Video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          key={currentVideo} // Force re-render when video changes
+          onCanPlay={() => setVideoReady(true)}
+        >
+          <source src={currentVideo} type="video/mp4" />
+        </Video>
+      )}
+      <Overlay>
+        <div>
+          <h1>{settings.heroTitle}</h1>
+          <p>{settings.heroSubtitle}</p>
+        </div>
+        <Link href="/trips" passHref legacyBehavior>
+          <ButtonCTA>
+            Разгледайте екскурзиите
+          </ButtonCTA>
+        </Link>
+      </Overlay>
+    </VideoWrapper>
   );
 }
 

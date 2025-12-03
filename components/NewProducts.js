@@ -2,11 +2,13 @@ import styled from "styled-components";
 import Center from "@/components/Center";
 import ProductsGrid from "@/components/ProductsGrid";
 import ButtonLink from "@/components/ButtonLink";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const Title = styled.h2`
   font-size: 2rem;
   margin:30px 0 20px;
   font-weight: normal;
+  ${props => props.style}
 `;
 
 const ButtonWrapper = styled.div`
@@ -14,14 +16,25 @@ const ButtonWrapper = styled.div`
   justify-content: center;
   margin-top: 40px;
   margin-bottom: 20px;
+  ${props => props.style}
+`;
+
+const AnimatedGrid = styled.div`
+  ${props => props.style}
 `;
 
 export default function NewProducts({products}) {
+  const titleAnimation = useScrollAnimation({ animation: 'fadeIn', delay: 0 });
+  const gridAnimation = useScrollAnimation({ animation: 'slideUp', delay: 200 });
+  const buttonAnimation = useScrollAnimation({ animation: 'fadeIn', delay: 400 });
+
   return (
     <Center>
-      <Title>Акцентни екскурзии</Title>
-      <ProductsGrid products={products} />
-      <ButtonWrapper>
+      <Title ref={titleAnimation.ref} style={titleAnimation.style}>Акцентни екскурзии</Title>
+      <AnimatedGrid ref={gridAnimation.ref} style={gridAnimation.style}>
+        <ProductsGrid products={products} />
+      </AnimatedGrid>
+      <ButtonWrapper ref={buttonAnimation.ref} style={buttonAnimation.style}>
         <ButtonLink href="/trips" primary size="l">
           Виж всички екскурзии
         </ButtonLink>

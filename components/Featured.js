@@ -2,11 +2,12 @@ import Center from "@/components/Center";
 import styled from "styled-components";
 import Image from "next/image";
 import ButtonLink from "@/components/ButtonLink";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const Bg = styled.div`
   background-color: #222;
   color:#fff;
-  padding: 0 0 50px 0;
+  padding: 50px 0;
 `;
 const Title = styled.h1`
   margin:0;
@@ -37,28 +38,39 @@ const ColumnsWrapper = styled.div`
 const Column = styled.div`
   display: flex;
   align-items: center;
+  ${props => props.style}
 `;
 const ButtonsWrapper = styled.div`
   display: flex;
   gap:10px;
   margin-top:25px;
+  ${props => props.style}
+`;
+
+const StyledCenter = styled(Center)`
+  padding-top: 0 !important;
+  margin-top: 0 !important;
 `;
 
 export default function Featured({product}) {
+  const textAnimation = useScrollAnimation({ animation: 'slideRight', delay: 0 });
+  const imageAnimation = useScrollAnimation({ animation: 'slideLeft', delay: 200 });
+  const buttonAnimation = useScrollAnimation({ animation: 'fadeIn', delay: 400 });
+
   return (
     <Bg>
-      <Center>
+      <StyledCenter>
         <ColumnsWrapper>
-          <Column>
+          <Column ref={textAnimation.ref} style={textAnimation.style}>
             <div>
               <Title>{product.title}</Title>
               <Desc>{product.description}</Desc>
-              <ButtonsWrapper>
+              <ButtonsWrapper ref={buttonAnimation.ref} style={buttonAnimation.style}>
                 <ButtonLink href={'/trip/'+product._id} outline={1} white={1}>Прочети повече</ButtonLink>
               </ButtonsWrapper>
             </div>
           </Column>
-          <Column>
+          <Column ref={imageAnimation.ref} style={imageAnimation.style}>
             {product.images?.[0] ? (
               <Image 
                 src={product.images[0]} 
@@ -89,7 +101,7 @@ export default function Featured({product}) {
             )}
           </Column>
         </ColumnsWrapper>
-      </Center>
+      </StyledCenter>
 
     </Bg>
   );

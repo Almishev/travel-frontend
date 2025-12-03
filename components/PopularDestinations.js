@@ -3,6 +3,7 @@ import Center from "@/components/Center";
 import Link from "next/link";
 import Image from "next/image";
 import ButtonLink from "@/components/ButtonLink";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const Section = styled.section`
   padding: 60px 0;
@@ -14,6 +15,7 @@ const Title = styled.h2`
   margin: 0 0 40px;
   font-weight: normal;
   text-align: center;
+  ${props => props.style}
 `;
 
 const DestinationsGrid = styled.div`
@@ -25,6 +27,7 @@ const DestinationsGrid = styled.div`
   @media screen and (min-width: 768px) {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   }
+  ${props => props.style}
 `;
 
 const DestinationCard = styled(Link)`
@@ -77,9 +80,14 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  ${props => props.style}
 `;
 
 export default function PopularDestinations({destinations}) {
+  const titleAnimation = useScrollAnimation({ animation: 'fadeIn', delay: 0 });
+  const gridAnimation = useScrollAnimation({ animation: 'scale', delay: 200 });
+  const buttonAnimation = useScrollAnimation({ animation: 'fadeIn', delay: 400 });
+
   if (!destinations || destinations.length === 0) {
     return null;
   }
@@ -87,8 +95,8 @@ export default function PopularDestinations({destinations}) {
   return (
     <Section>
       <Center>
-        <Title>Популярни дестинации</Title>
-        <DestinationsGrid>
+        <Title ref={titleAnimation.ref} style={titleAnimation.style}>Популярни дестинации</Title>
+        <DestinationsGrid ref={gridAnimation.ref} style={gridAnimation.style}>
           {destinations.slice(0, 6).map((dest, index) => (
             <DestinationCard key={index} href={`/destination/${encodeURIComponent(dest.name)}`}>
               {dest.sample?.image && (
@@ -113,7 +121,7 @@ export default function PopularDestinations({destinations}) {
             </DestinationCard>
           ))}
         </DestinationsGrid>
-        <ButtonWrapper>
+        <ButtonWrapper ref={buttonAnimation.ref} style={buttonAnimation.style}>
           <ButtonLink href="/destinations" primary size="l">
             Виж всички дестинации
           </ButtonLink>

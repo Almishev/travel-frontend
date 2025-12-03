@@ -13,7 +13,19 @@ export default function SEO({
 }) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://travel-frontend-theta-nine.vercel.app';
   const fullUrl = url ? `${siteUrl}${url}` : siteUrl;
-  const fullImage = image.startsWith('http') ? image : `${siteUrl}${image}`;
+  
+  // Обработка на изображенията - ако е абсолютен URL (http/https), използваме го директно
+  // Ако е относителен път, добавяме siteUrl
+  // Ако е S3 URL или друг външен URL, използваме го директно
+  let fullImage;
+  if (image.startsWith('http://') || image.startsWith('https://')) {
+    fullImage = image;
+  } else if (image.startsWith('//')) {
+    fullImage = `https:${image}`;
+  } else {
+    // Относителен път - добавяме siteUrl
+    fullImage = `${siteUrl}${image.startsWith('/') ? image : '/' + image}`;
+  }
 
   // Structured Data за библиотека (Library + LocalBusiness)
   const defaultStructuredData = [
@@ -56,6 +68,9 @@ export default function SEO({
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={fullImage} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:type" content="image/png" />
       <meta property="og:locale" content="bg_BG" />
       <meta property="og:site_name" content="Туристическа агенция" />
 
@@ -65,6 +80,7 @@ export default function SEO({
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={fullImage} />
+      <meta name="twitter:image:alt" content={title} />
 
       {/* Canonical URL */}
       <link rel="canonical" href={fullUrl} />

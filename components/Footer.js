@@ -5,8 +5,8 @@ import {useState, useEffect} from "react";
 import axios from "axios";
 
 const StyledFooter = styled.footer`
-  background-color: #222;
-  color: #aaa;
+  background-color: #b8860b;
+  color: #000;
   padding: 40px 0;
   margin-top: 60px;
 `;
@@ -23,7 +23,7 @@ const FooterContent = styled.div`
 
 const FooterSection = styled.div`
   h3 {
-    color: #fff;
+    color: #000;
     margin-bottom: 15px;
     font-size: 1.1rem;
     font-weight: 600;
@@ -32,6 +32,7 @@ const FooterSection = styled.div`
   p {
     line-height: 1.6;
     margin-bottom: 10px;
+    color: #000;
   }
   
   ul {
@@ -45,7 +46,7 @@ const FooterSection = styled.div`
   }
   
   a {
-    color: #aaa;
+    color: #000;
     text-decoration: none;
     transition: color 0.3s ease;
     
@@ -57,7 +58,7 @@ const FooterSection = styled.div`
 
 const Logo = styled.div`
   h2 {
-    color: #fff;
+    color: #000;
     margin: 0 0 15px 0;
     font-size: 1.5rem;
     font-weight: 700;
@@ -67,6 +68,7 @@ const Logo = styled.div`
     font-size: 0.9rem;
     line-height: 1.6;
     margin-bottom: 20px;
+    color: #000;
   }
 `;
 
@@ -79,15 +81,17 @@ const SocialLinks = styled.div`
     display: inline-block;
     width: 40px;
     height: 40px;
-    background-color: #333;
+    background-color: #000;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    color: #b8860b;
     
     &:hover {
-      background-color: #555;
+      background-color: #fff;
+      color: #b8860b;
     }
   }
 `;
@@ -97,21 +101,24 @@ const ContactInfo = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+    color: #000;
     
     svg {
       margin-right: 10px;
       width: 16px;
       height: 16px;
+      color: #000;
     }
   }
 `;
 
 const BottomBar = styled.div`
-  border-top: 1px solid #333;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
   margin-top: 40px;
   padding-top: 20px;
   text-align: center;
   font-size: 0.9rem;
+  color: #000;
   
   @media screen and (min-width: 768px) {
     text-align: left;

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Center from "@/components/Center";
 import {useState} from "react";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const Section = styled.section`
   padding: 60px 0;
@@ -12,16 +13,19 @@ const Title = styled.h2`
   margin: 0 0 40px;
   font-weight: normal;
   text-align: center;
+  ${props => props.style}
 `;
 
 const FAQContainer = styled.div`
   max-width: 900px;
   margin: 0 auto;
+  ${props => props.style}
 `;
 
 const FAQItem = styled.div`
   border-bottom: 1px solid #e5e7eb;
   padding: 20px 0;
+  ${props => props.style}
   
   &:first-child {
     border-top: 1px solid #e5e7eb;
@@ -44,7 +48,7 @@ const Question = styled.button`
   gap: 20px;
   
   &:hover {
-    color: #0D3D29;
+    color: #b8860b;
   }
 `;
 
@@ -58,7 +62,7 @@ const Answer = styled.div`
 
 const Icon = styled.span`
   font-size: 1.5rem;
-  color: #0D3D29;
+  color: #b8860b;
   transition: transform 0.3s ease;
   transform: ${props => props.isOpen ? 'rotate(180deg)' : 'rotate(0deg)'};
 `;
@@ -86,8 +90,26 @@ const faqs = [
   }
 ];
 
+function FAQItemComponent({ faq, index, isOpen, onToggle, delay }) {
+  const animation = useScrollAnimation({ animation: 'fadeIn', delay });
+
+  return (
+    <FAQItem ref={animation.ref} style={animation.style}>
+      <Question onClick={onToggle}>
+        <span>{faq.question}</span>
+        <Icon isOpen={isOpen}>▼</Icon>
+      </Question>
+      <Answer isOpen={isOpen}>
+        {faq.answer}
+      </Answer>
+    </FAQItem>
+  );
+}
+
 export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState(null);
+  const titleAnimation = useScrollAnimation({ animation: 'fadeIn', delay: 0 });
+  const containerAnimation = useScrollAnimation({ animation: 'slideUp', delay: 200 });
 
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -96,18 +118,17 @@ export default function FAQSection() {
   return (
     <Section>
       <Center>
-        <Title>Често задавани въпроси</Title>
-        <FAQContainer>
+        <Title ref={titleAnimation.ref} style={titleAnimation.style}>Често задавани въпроси</Title>
+        <FAQContainer ref={containerAnimation.ref} style={containerAnimation.style}>
           {faqs.map((faq, index) => (
-            <FAQItem key={index}>
-              <Question onClick={() => toggleFAQ(index)}>
-                <span>{faq.question}</span>
-                <Icon isOpen={openIndex === index}>▼</Icon>
-              </Question>
-              <Answer isOpen={openIndex === index}>
-                {faq.answer}
-              </Answer>
-            </FAQItem>
+            <FAQItemComponent
+              key={index}
+              faq={faq}
+              index={index}
+              isOpen={openIndex === index}
+              onToggle={() => toggleFAQ(index)}
+              delay={300 + (index * 100)}
+            />
           ))}
         </FAQContainer>
       </Center>

@@ -40,7 +40,7 @@ export const ButtonStyle = css`
   ${props => props.primary && !props.outline && css`
     background-color: ${primary};
     border: 1px solid ${primary};
-    color:#fff;
+    color:#000;
   `}
   ${props => props.primary && props.outline && css`
     background-color: transparent;
@@ -84,6 +84,7 @@ const StyledButton = styled.button`
       filter: brightness(1.1);
       transform: translateY(-1px);
       box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      color: #fff;
     `}
     ${props => props.primary && props.outline && css`
       background-color: ${primary};
