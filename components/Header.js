@@ -6,12 +6,14 @@ import BarsIcon from "@/components/icons/Bars";
 
 const StyledHeader = styled.header`
   background-color: #b8860b;
-  padding: 12px 0;
+  padding: 2px 0;
+  overflow: visible;
 `;
 const HeaderInner = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 32px;
+  overflow: visible;
 `;
 const Logo = styled(Link)`
   color:#000;
@@ -24,6 +26,7 @@ const Logo = styled(Link)`
   font-size: 22px;
   font-weight: 600;
   transition: color 0.3s ease;
+  overflow: visible;
   
   &:hover {
     color: #fff;
@@ -35,10 +38,24 @@ const Logo = styled(Link)`
   }
 `;
 
-const LogoImage = styled(Image)`
+const LogoText = styled.span`
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: 28px;
+  letter-spacing: 1px;
+  
   @media screen and (max-width: 768px) {
-    width: 80px !important;
-    height: 32px !important;
+    font-size: 20px;
+  }
+`;
+
+const LogoImage = styled(Image)`
+  width: 200px !important;
+  height: 80px !important;
+  
+  @media screen and (max-width: 768px) {
+    width: 120px !important;
+    height: 48px !important;
   }
 `;
 const Wrapper = styled.div`
@@ -214,11 +231,11 @@ export default function Header() {
             <LogoImage 
               src="/logo.png" 
               alt="Туристическа агенция - Лого" 
-              width={120} 
-              height={48}
+              width={200} 
+              height={80}
               style={{objectFit: 'contain'}}
             />
-            Friendly Travel
+            <LogoText>Friendly Travel</LogoText>
           </Logo>
           <NavArea>
             <StyledNav>
