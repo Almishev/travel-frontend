@@ -53,8 +53,8 @@ export default function SEO({
       },
       url: siteUrl,
       description: 'Туристическа агенция, предлагаща екскурзии и пътувания.',
-      telephone: '+359 877 382 224',
-      email: 'info@library-mosomishche.bg',
+      telephone: '+359 896 178 447',
+      email: 'officefriendlytravel@gmail.com',
     },
   ];
 

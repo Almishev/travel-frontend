@@ -1,15 +1,19 @@
+import { Suspense, lazy } from "react";
 import Header from "@/components/Header";
 import Featured from "@/components/Featured";
 import {Product} from "@/models/Product";
 import {mongooseConnect} from "@/lib/mongoose";
-import NewProducts from "@/components/NewProducts";
 import Footer from "@/components/Footer";
 import HeroVideo from "@/components/HeroVideo";
 import SEO from "@/components/SEO";
-import AboutSection from "@/components/AboutSection";
-import FAQSection from "@/components/FAQSection";
-import PopularDestinations from "@/components/PopularDestinations";
+import LazySection from "@/components/LazySection";
 import {Settings} from "@/models/Settings";
+
+// Lazy load компонентите, които не са видими веднага
+const NewProducts = lazy(() => import("@/components/NewProducts"));
+const PopularDestinations = lazy(() => import("@/components/PopularDestinations"));
+const AboutSection = lazy(() => import("@/components/AboutSection"));
+const FAQSection = lazy(() => import("@/components/FAQSection"));
 
 export default function HomePage({featuredProduct,newProducts,popularDestinations, heroSettings}) {
   return (
@@ -25,10 +29,31 @@ export default function HomePage({featuredProduct,newProducts,popularDestination
         <Header />
         <HeroVideo heroSettings={heroSettings} />
         {featuredProduct && <Featured product={featuredProduct} />}
-        <NewProducts products={newProducts} />
-        <PopularDestinations destinations={popularDestinations} />
-        <AboutSection />
-        <FAQSection />
+        
+        <LazySection>
+          <Suspense fallback={null}>
+            <NewProducts products={newProducts} />
+          </Suspense>
+        </LazySection>
+
+        <LazySection>
+          <Suspense fallback={null}>
+            <PopularDestinations destinations={popularDestinations} />
+          </Suspense>
+        </LazySection>
+
+        <LazySection>
+          <Suspense fallback={null}>
+            <AboutSection />
+          </Suspense>
+        </LazySection>
+
+        <LazySection>
+          <Suspense fallback={null}>
+            <FAQSection />
+          </Suspense>
+        </LazySection>
+
         <Footer />
       </div>
     </>

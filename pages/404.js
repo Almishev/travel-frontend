@@ -148,7 +148,7 @@ export default function NotFoundPage() {
             <SecondaryButton href="/trips">Разгледай екскурзиите</SecondaryButton>
           </Actions>
           <Tip>
-            Ако смятате, че това е грешка, свържете се с нас: info@library-mosomishche.bg
+            Ако смятате, че това е грешка, свържете се с нас: officefriendlytravel@gmail.com
           </Tip>
         </Content>
       </Wrapper>
