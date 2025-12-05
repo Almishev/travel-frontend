@@ -222,7 +222,7 @@ export default function LoadingScreen() {
             }}
           />
         </AnimatedLogo>
-        <LoadingText>Зареждане...</LoadingText>
+        <LoadingText>...</LoadingText>
         <Spinner />
       </LogoContainer>
     </LoadingOverlay>

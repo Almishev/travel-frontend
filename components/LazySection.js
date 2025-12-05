@@ -13,6 +13,9 @@ export default function LazySection({ children, fallback = null, rootMargin = '2
     // Ако вече е зареден, не правим нищо
     if (hasLoaded) return;
 
+    const currentRef = containerRef.current;
+    if (!currentRef) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -30,13 +33,11 @@ export default function LazySection({ children, fallback = null, rootMargin = '2
       }
     );
 
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
+    observer.observe(currentRef);
 
     return () => {
-      if (containerRef.current) {
-        observer.unobserve(containerRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, [hasLoaded, rootMargin]);

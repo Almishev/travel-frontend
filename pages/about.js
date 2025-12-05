@@ -115,7 +115,7 @@ export default function AboutPage() {
           </AnimatedSection>
 
           <AnimatedSection ref={mottoAnimation.ref} style={mottoAnimation.style}>
-            <Motto>"Making connections"</Motto>
+            <Motto>&quot;Making connections&quot;</Motto>
           </AnimatedSection>
 
           <AnimatedSection ref={teamAnimation.ref} style={teamAnimation.style}>

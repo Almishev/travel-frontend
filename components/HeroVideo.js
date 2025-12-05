@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 const VideoWrapper = styled.div`
   position: relative;
@@ -147,26 +147,7 @@ export default function HeroVideo({ heroSettings }) {
   const [videoReady, setVideoReady] = useState(false);
   const videoRef = useRef(null);
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    updateVideoSource();
-
-    const handleResize = () => {
-      updateVideoSource();
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [settings.heroVideoDesktop, settings.heroVideoMobile]);
-
-  useEffect(() => {
-    // Update video source when currentVideo changes
-    if (videoRef.current && currentVideo) {
-      videoRef.current.load(); // Reload video with new source
-    }
-  }, [currentVideo]);
-
-  function updateVideoSource() {
+  const updateVideoSource = useCallback(() => {
     if (typeof window === 'undefined') return;
     const isMobile = window.innerWidth <= 768;
     
@@ -178,7 +159,26 @@ export default function HeroVideo({ heroSettings }) {
       // Fallback to mobile video if desktop is not available
       setCurrentVideo(settings.heroVideoMobile);
     }
-  }
+  }, [settings.heroVideoDesktop, settings.heroVideoMobile]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    updateVideoSource();
+
+    const handleResize = () => {
+      updateVideoSource();
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [updateVideoSource]);
+
+  useEffect(() => {
+    // Update video source when currentVideo changes
+    if (videoRef.current && currentVideo) {
+      videoRef.current.load(); // Reload video with new source
+    }
+  }, [currentVideo]);
 
   return (
     <VideoWrapper>
