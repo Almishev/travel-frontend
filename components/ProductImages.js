@@ -74,6 +74,7 @@ export default function ProductImages({images = []}) {
           style={{
             maxWidth: '100%',
             maxHeight: '200px',
+            width: 'auto',
             height: 'auto',
             objectFit: 'contain',
           }}

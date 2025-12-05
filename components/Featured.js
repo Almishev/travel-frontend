@@ -80,6 +80,7 @@ export default function Featured({product}) {
                 style={{
                   maxWidth: '100%',
                   maxHeight: '200px',
+                  width: 'auto',
                   height: 'auto',
                   objectFit: 'contain',
                 }}

@@ -12,6 +12,7 @@ import {Settings} from "@/models/Settings";
 // Lazy load компонентите, които не са видими веднага
 const NewProducts = lazy(() => import("@/components/NewProducts"));
 const PopularDestinations = lazy(() => import("@/components/PopularDestinations"));
+const MemoriesSection = lazy(() => import("@/components/MemoriesSection"));
 const AboutSection = lazy(() => import("@/components/AboutSection"));
 const FAQSection = lazy(() => import("@/components/FAQSection"));
 
@@ -39,6 +40,12 @@ export default function HomePage({featuredProduct,newProducts,popularDestination
         <LazySection>
           <Suspense fallback={null}>
             <PopularDestinations destinations={popularDestinations} />
+          </Suspense>
+        </LazySection>
+
+        <LazySection>
+          <Suspense fallback={null}>
+            <MemoriesSection />
           </Suspense>
         </LazySection>
 

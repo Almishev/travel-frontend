@@ -147,6 +147,7 @@ export default function ProductBox({
               height={80}
               style={{
                 maxWidth: '100%',
+                width: 'auto',
                 height: 'auto',
                 objectFit: 'contain',
               }}
