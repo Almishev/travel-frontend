@@ -101,40 +101,23 @@ export default function LoadingScreen() {
       return;
     }
 
-    // Функция за проверка дали страницата е напълно заредена
-    const checkPageLoaded = () => {
-      // Проверяваме дали DOM е готов
-      if (document.readyState === 'complete') {
-        // Проверяваме дали всички изображения са заредени
-        const images = document.querySelectorAll('img');
-        const allImagesLoaded = Array.from(images).every(img => {
-          // Ако изображението няма src или е data URI, считаме го за заредено
-          if (!img.src || img.src.startsWith('data:')) return true;
-          // Проверяваме дали изображението е заредено
-          return img.complete && img.naturalHeight !== 0;
-        });
-
-        // Проверяваме дали има стилове (за styled-components)
-        const hasStyles = document.querySelector('style') !== null;
-
-        return allImagesLoaded && hasStyles;
-      }
-      return false;
-    };
+    // Опростена проверка - само дали DOM е готов
+    // Не чакаме всички изображения, за да не забавяме скриването
 
     // Функция за скриване на loading screen
     const hideLoading = () => {
       // Минимално време за показване (за да се види анимацията)
-      const minDisplayTime = 800; // 0.8 секунди
-      // Максимално време - принудително скриване след 3 секунди
-      const maxDisplayTime = 3000; // 3 секунди
+      const minDisplayTime = 500; // 0.5 секунди (намалено от 0.8s)
+      // Максимално време - принудително скриване след 1.5 секунди (намалено от 3s)
+      const maxDisplayTime = 1500; // 1.5 секунди
       const startTime = Date.now();
 
       const tryHide = () => {
         const elapsed = Date.now() - startTime;
-        const isLoaded = checkPageLoaded();
+        // Опростена проверка - само дали DOM е готов, без да чакаме всички изображения
+        const isLoaded = document.readyState === 'complete';
 
-        // Ако е минало максималното време (3 секунди), скрий принудително
+        // Ако е минало максималното време (1.5 секунди), скрий принудително
         if (elapsed >= maxDisplayTime) {
           setIsHiding(true);
           setTimeout(() => {
@@ -144,12 +127,12 @@ export default function LoadingScreen() {
             if (typeof window !== 'undefined') {
               sessionStorage.setItem('pageLoaded', 'true');
             }
-          }, 300);
+          }, 200); // Намалено от 300ms
           return;
         }
 
-        // Ако страницата е заредена и е минало минималното време (0.8 секунди)
-        // Скрий веднага, без да чака до 3 секунди
+        // Ако страницата е заредена и е минало минималното време (0.5 секунди)
+        // Скрий веднага, без да чака до 1.5 секунди
         if (isLoaded && elapsed >= minDisplayTime) {
           setIsHiding(true);
           setTimeout(() => {
@@ -159,16 +142,16 @@ export default function LoadingScreen() {
             if (typeof window !== 'undefined') {
               sessionStorage.setItem('pageLoaded', 'true');
             }
-          }, 300);
+          }, 200); // Намалено от 300ms
           return;
         }
 
         // Ако страницата все още не е заредена, провери отново след малко
         if (!isLoaded) {
-          setTimeout(tryHide, 100);
+          setTimeout(tryHide, 50); // Намалено от 100ms за по-бърза проверка
         } else {
           // Ако е заредена, но не е минало достатъчно време (минималното)
-          setTimeout(tryHide, minDisplayTime - elapsed);
+          setTimeout(tryHide, Math.max(0, minDisplayTime - elapsed));
         }
       };
 

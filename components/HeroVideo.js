@@ -31,12 +31,12 @@ const Video = styled.video`
 const Poster = styled.div`
   position: absolute;
   inset: 0;
-  background-image: url('/hero-poster.jpg');
-  background-size: cover;
-  background-position: center;
+  background-color: #000;
   transition: opacity 0.4s ease;
   opacity: ${(props) => (props.hidden ? 0 : 1)};
   pointer-events: none;
+  /* Оптимизация за по-бързо зареждане */
+  will-change: opacity;
 `;
 
 const Overlay = styled.div`
@@ -145,7 +145,9 @@ export default function HeroVideo({ heroSettings }) {
     initialSettings.heroVideoDesktop || initialSettings.heroVideoMobile || ''
   );
   const [videoReady, setVideoReady] = useState(false);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
   const videoRef = useRef(null);
+  const videoWrapperRef = useRef(null);
 
   const updateVideoSource = useCallback(() => {
     if (typeof window === 'undefined') return;
@@ -173,24 +175,52 @@ export default function HeroVideo({ heroSettings }) {
     return () => window.removeEventListener('resize', handleResize);
   }, [updateVideoSource]);
 
+  // Intersection Observer за lazy loading на видеото
   useEffect(() => {
-    // Update video source when currentVideo changes
-    if (videoRef.current && currentVideo) {
-      videoRef.current.load(); // Reload video with new source
-    }
+    if (!videoWrapperRef.current || !currentVideo) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setShouldLoadVideo(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        rootMargin: '50px', // Започваме да зареждаме 50px преди да влезе в viewport
+        threshold: 0.1,
+      }
+    );
+
+    observer.observe(videoWrapperRef.current);
+
+    return () => {
+      if (videoWrapperRef.current) {
+        observer.unobserve(videoWrapperRef.current);
+      }
+    };
   }, [currentVideo]);
 
+  useEffect(() => {
+    // Update video source when currentVideo changes и когато трябва да се зареди
+    if (videoRef.current && currentVideo && shouldLoadVideo) {
+      videoRef.current.load(); // Reload video with new source
+    }
+  }, [currentVideo, shouldLoadVideo]);
+
   return (
-    <VideoWrapper>
-      <Poster hidden={videoReady} />
-      {currentVideo && (
+    <VideoWrapper ref={videoWrapperRef}>
+      <Poster hidden={videoReady && shouldLoadVideo} />
+      {currentVideo && shouldLoadVideo && (
         <Video
           ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="none"
           key={currentVideo} // Force re-render when video changes
           onCanPlay={() => setVideoReady(true)}
         >
