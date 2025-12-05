@@ -25,11 +25,15 @@ const ColumnsWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 40px;
+  justify-items: center;
+  
   div:nth-child(1) {
     order: 2;
   }
+  
   @media screen and (min-width: 768px) {
     grid-template-columns: 1.1fr 0.9fr;
+    justify-items: stretch;
     div:nth-child(1) {
       order: 0;
     }
@@ -38,6 +42,14 @@ const ColumnsWrapper = styled.div`
 const Column = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
+  
+  @media screen and (max-width: 768px) {
+    justify-content: center;
+    text-align: center;
+  }
+  
   ${props => props.style}
 `;
 const ButtonsWrapper = styled.div`
@@ -62,7 +74,7 @@ export default function Featured({product}) {
       <StyledCenter>
         <ColumnsWrapper>
           <Column ref={textAnimation.ref} style={textAnimation.style}>
-            <div>
+            <div style={{ width: '100%', textAlign: 'center' }}>
               <Title>{product.title}</Title>
               <Desc>{product.description}</Desc>
               <ButtonsWrapper ref={buttonAnimation.ref} style={buttonAnimation.style}>
