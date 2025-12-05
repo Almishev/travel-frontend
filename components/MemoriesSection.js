@@ -333,14 +333,9 @@ const memoriesData = [
     image: 'https://travel-agency-toni.s3.eu-central-1.amazonaws.com/memories/tasos/IMG_7747.jpg',
     alt: 'Спомен от Тасос'
   },
+  
   {
     id: 10,
-    destination: 'Тасос',
-    image: 'https://travel-agency-toni.s3.eu-central-1.amazonaws.com/memories/tasos/IMG_7748.jpg',
-    alt: 'Спомен от Тасос'
-  },
-  {
-    id: 11,
     destination: 'Тасос',
     image: 'https://travel-agency-toni.s3.eu-central-1.amazonaws.com/memories/tasos/IMG_7769.JPG',
     alt: 'Спомен от Тасос'
