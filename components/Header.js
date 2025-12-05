@@ -14,6 +14,14 @@ const HeaderInner = styled.div`
   margin: 0 auto;
   padding: 0 32px;
   overflow: visible;
+  
+  @media screen and (max-width: 400px) {
+    padding: 0 16px;
+  }
+  
+  @media screen and (max-width: 360px) {
+    padding: 0 12px;
+  }
 `;
 const Logo = styled(Link)`
   color:#000;
@@ -27,14 +35,26 @@ const Logo = styled(Link)`
   font-weight: 600;
   transition: color 0.3s ease;
   overflow: visible;
+  flex-shrink: 0;
+  min-width: 0;
   
   &:hover {
     color: #fff;
   }
   
   @media screen and (max-width: 768px) {
-    gap: 10px;
+    gap: 8px;
     font-size: 18px;
+  }
+  
+  @media screen and (max-width: 400px) {
+    gap: 6px;
+    font-size: 16px;
+  }
+  
+  @media screen and (max-width: 360px) {
+    gap: 4px;
+    font-size: 14px;
   }
 `;
 
@@ -43,9 +63,21 @@ const LogoText = styled.span`
   font-weight: 600;
   font-size: 28px;
   letter-spacing: 1px;
+  white-space: nowrap;
   
   @media screen and (max-width: 768px) {
     font-size: 20px;
+  }
+  
+  @media screen and (max-width: 400px) {
+    font-size: 16px;
+    letter-spacing: 0.5px;
+  }
+  
+  @media screen and (max-width: 360px) {
+    font-size: 14px;
+    letter-spacing: 0;
+    display: none; /* Скриваме текста на много тесни екрани */
   }
 `;
 
@@ -57,13 +89,32 @@ const LogoImage = styled(Image)`
     width: 120px !important;
     height: 48px !important;
   }
+  
+  @media screen and (max-width: 400px) {
+    width: 100px !important;
+    height: 40px !important;
+  }
+  
+  @media screen and (max-width: 360px) {
+    width: 80px !important;
+    height: 32px !important;
+  }
 `;
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 20px;
+  min-width: 0;
+  
+  @media screen and (max-width: 400px) {
+    gap: 12px;
+  }
+  
+  @media screen and (max-width: 360px) {
+    gap: 8px;
+  }
 `;
 const NavArea = styled.div`
   display: flex;
@@ -162,9 +213,31 @@ const NavButton = styled.button`
     display: flex;
   }
   
+  @media screen and (max-width: 400px) {
+    width: 40px;
+    height: 40px;
+    padding: 6px;
+  }
+  
+  @media screen and (max-width: 360px) {
+    width: 36px;
+    height: 36px;
+    padding: 4px;
+  }
+  
   svg {
     width: 28px;
     height: 28px;
+    
+    @media screen and (max-width: 400px) {
+      width: 24px;
+      height: 24px;
+    }
+    
+    @media screen and (max-width: 360px) {
+      width: 20px;
+      height: 20px;
+    }
   }
 `;
 
