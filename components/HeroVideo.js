@@ -69,7 +69,6 @@ const Overlay = styled.div`
   bottom: 12%;
   transform: translateX(-50%);
   color: #fff;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.5);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -82,18 +81,32 @@ const Overlay = styled.div`
     line-height: 1.1;
     margin: 0;
     font-weight: 600;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 
+                 0 0 8px rgba(0, 0, 0, 0.6),
+                 0 0 12px rgba(0, 0, 0, 0.4);
   }
 
   p {
     margin: 0;
     font-size: 18px;
-    opacity: 0.95;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 
+                 0 0 6px rgba(0, 0, 0, 0.6);
   }
 
   @media (max-width: 768px) {
     bottom: 10%;
-    h1 { font-size: 24px; }
-    p { font-size: 14px; }
+    h1 { 
+      font-size: 24px;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8), 
+                   0 0 6px rgba(0, 0, 0, 0.6);
+    }
+    p { 
+      font-size: 14px;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8), 
+                   0 0 4px rgba(0, 0, 0, 0.6);
+    }
   }
 `;
 
@@ -113,6 +126,9 @@ const ButtonCTA = styled.a`
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transform: translateY(0);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 
+               0 0 6px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
   
   &::before {
     content: '';
@@ -131,6 +147,7 @@ const ButtonCTA = styled.a`
     border-color: #fff;
     transform: translateY(-3px) scale(1.05);
     box-shadow: 0 10px 30px rgba(255, 255, 255, 0.4), 0 0 20px rgba(255, 255, 255, 0.3);
+    text-shadow: none;
     
     &::before {
       left: 100%;
@@ -144,6 +161,8 @@ const ButtonCTA = styled.a`
   @media (max-width: 768px) {
     font-size: 0.9rem;
     padding: 10px 20px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8), 
+                 0 0 4px rgba(0, 0, 0, 0.6);
     
     &:hover {
       transform: translateY(-2px) scale(1.03);
