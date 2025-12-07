@@ -248,6 +248,19 @@ export default function HeroVideo({ heroSettings }) {
 
   // Показваме снимка ако е избран тип 'image'
   if (settings.heroMediaType === 'image' && settings.heroImage) {
+    const isS3Image = settings.heroImage?.includes('s3.amazonaws.com') || 
+                      settings.heroImage?.includes('s3.eu-central-1.amazonaws.com') ||
+                      settings.heroImage?.includes('amazonaws.com');
+    
+    // Debug logging
+    if (typeof window !== 'undefined') {
+      console.log('Hero image settings:', {
+        heroMediaType: settings.heroMediaType,
+        heroImage: settings.heroImage,
+        isS3Image: isS3Image
+      });
+    }
+    
     return (
       <VideoWrapper ref={videoWrapperRef}>
         <ImageWrapper>
@@ -257,11 +270,20 @@ export default function HeroVideo({ heroSettings }) {
             width={1920}
             height={1080}
             priority
-            unoptimized={settings.heroImage?.includes('s3.amazonaws.com')}
+            unoptimized={isS3Image}
             style={{
               width: '100%',
               height: '100%',
               objectFit: 'cover',
+            }}
+            onError={(e) => {
+              console.error('Error loading hero image:', settings.heroImage);
+              console.error('Error details:', e);
+              // Fallback to black background if image fails to load
+              e.target.style.display = 'none';
+            }}
+            onLoad={() => {
+              console.log('Hero image loaded successfully:', settings.heroImage);
             }}
           />
         </ImageWrapper>
