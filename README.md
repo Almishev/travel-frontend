@@ -9,7 +9,7 @@ npm install
 npm run dev
 ```
 
-По подразбиране фронтендът работи на `http://localhost:3000`.
+По подразбиране фронтендът работи на `http://localhost:3001`.
 
 Необходими са коректни променливи в `travel-frontend/.env` (MongoDB, S3 и др.), вкл. `MONGODB_URI` към базата `travel`.
 

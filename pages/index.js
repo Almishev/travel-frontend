@@ -29,7 +29,26 @@ export default function HomePage({featuredProduct,newProducts,popularDestination
       <div>
         <Header />
         <HeroVideo heroSettings={heroSettings} />
-        {featuredProduct && <Featured product={featuredProduct} />}
+        {featuredProduct ? (
+          <Featured product={featuredProduct} />
+        ) : (
+          <div style={{
+            backgroundColor: '#222',
+            color: '#fff',
+            padding: '50px 0',
+            minHeight: '300px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <div style={{ textAlign: 'center', maxWidth: '600px', padding: '0 20px' }}>
+              <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Акцентни екскурзии</h2>
+              <p style={{ color: '#aaa', marginBottom: '1.5rem' }}>
+                В момента няма избрана акцентна екскурзия. Моля, влезте в админ панела и изберете препоръчана екскурзия.
+              </p>
+            </div>
+          </div>
+        )}
         
         <LazySection>
           <Suspense fallback={null}>

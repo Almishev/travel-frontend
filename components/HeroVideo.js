@@ -265,7 +265,28 @@ export default function HeroVideo({ heroSettings }) {
     }
   }, [currentVideo, shouldLoadVideo]);
 
-  // Показваме снимка ако е избран тип 'image'
+  // Ако е избран тип 'image' но няма снимка, показваме placeholder
+  if (settings.heroMediaType === 'image' && !settings.heroImage) {
+    return (
+      <VideoWrapper ref={videoWrapperRef}>
+        <ImageWrapper style={{ minHeight: '400px', height: '65vh', background: 'linear-gradient(135deg, #b8860b 0%, #daa520 100%)' }}>
+          <Overlay>
+            <div>
+              <h1>{settings.heroTitle}</h1>
+              <p>{settings.heroSubtitle}</p>
+            </div>
+            <Link href="/trips" passHref legacyBehavior>
+              <ButtonCTA>
+                Разгледайте екскурзиите
+              </ButtonCTA>
+            </Link>
+          </Overlay>
+        </ImageWrapper>
+      </VideoWrapper>
+    );
+  }
+
+  // Показваме снимка ако е избран тип 'image' и има снимка
   if (settings.heroMediaType === 'image' && settings.heroImage) {
     const isS3Image = settings.heroImage?.includes('s3.amazonaws.com') || 
                       settings.heroImage?.includes('s3.eu-central-1.amazonaws.com') ||
@@ -343,6 +364,27 @@ export default function HeroVideo({ heroSettings }) {
             </ButtonCTA>
           </Link>
         </Overlay>
+      </VideoWrapper>
+    );
+  }
+
+  // Ако няма нито видео, нито снимка, показваме placeholder
+  if (!currentVideo && settings.heroMediaType !== 'image') {
+    return (
+      <VideoWrapper ref={videoWrapperRef}>
+        <ImageWrapper style={{ minHeight: '400px', height: '65vh', background: 'linear-gradient(135deg, #b8860b 0%, #daa520 100%)' }}>
+          <Overlay>
+            <div>
+              <h1>{settings.heroTitle}</h1>
+              <p>{settings.heroSubtitle}</p>
+            </div>
+            <Link href="/trips" passHref legacyBehavior>
+              <ButtonCTA>
+                Разгледайте екскурзиите
+              </ButtonCTA>
+            </Link>
+          </Overlay>
+        </ImageWrapper>
       </VideoWrapper>
     );
   }
