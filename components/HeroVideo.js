@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect, useRef, useCallback } from "react";
 
 const VideoWrapper = styled.div`
@@ -26,6 +27,29 @@ const Video = styled.video`
   max-height: 80vh;
   object-fit: contain;
   display: block;
+`;
+
+const ImageWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  min-height: 400px;
+  height: 65vh;
+  
+  @media (max-width: 768px) {
+    min-height: 350px;
+    height: 55vh;
+  }
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
 `;
 
 const Poster = styled.div`
@@ -128,8 +152,10 @@ const ButtonCTA = styled.a`
 `;
 
 const defaultSettings = {
+  heroMediaType: 'video',
   heroVideoDesktop: '',
   heroVideoMobile: '',
+  heroImage: '',
   heroTitle: 'Туристическа агенция',
   heroSubtitle: 'организираме разнообразни пътувания и екскурзии',
 };
@@ -151,6 +177,14 @@ export default function HeroVideo({ heroSettings }) {
 
   const updateVideoSource = useCallback(() => {
     if (typeof window === 'undefined') return;
+    
+    // Ако е избрана снимка, не показваме видео
+    if (settings.heroMediaType === 'image') {
+      setCurrentVideo('');
+      return;
+    }
+    
+    // Ако е избрано видео, показваме според устройството
     const isMobile = window.innerWidth <= 768;
     
     if (isMobile && settings.heroVideoMobile) {
@@ -160,8 +194,10 @@ export default function HeroVideo({ heroSettings }) {
     } else if (settings.heroVideoMobile) {
       // Fallback to mobile video if desktop is not available
       setCurrentVideo(settings.heroVideoMobile);
+    } else {
+      setCurrentVideo('');
     }
-  }, [settings.heroVideoDesktop, settings.heroVideoMobile]);
+  }, [settings.heroMediaType, settings.heroVideoDesktop, settings.heroVideoMobile]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -210,6 +246,41 @@ export default function HeroVideo({ heroSettings }) {
     }
   }, [currentVideo, shouldLoadVideo]);
 
+  // Показваме снимка ако е избран тип 'image'
+  if (settings.heroMediaType === 'image' && settings.heroImage) {
+    return (
+      <VideoWrapper ref={videoWrapperRef}>
+        <ImageWrapper>
+          <Image
+            src={settings.heroImage}
+            alt={settings.heroTitle}
+            width={1920}
+            height={1080}
+            priority
+            unoptimized={settings.heroImage?.includes('s3.amazonaws.com')}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+            }}
+          />
+        </ImageWrapper>
+        <Overlay>
+          <div>
+            <h1>{settings.heroTitle}</h1>
+            <p>{settings.heroSubtitle}</p>
+          </div>
+          <Link href="/trips" passHref legacyBehavior>
+            <ButtonCTA>
+              Разгледайте екскурзиите
+            </ButtonCTA>
+          </Link>
+        </Overlay>
+      </VideoWrapper>
+    );
+  }
+
+  // Показваме видео ако е избран тип 'video-desktop' или 'video-mobile'
   return (
     <VideoWrapper ref={videoWrapperRef}>
       <Poster hidden={videoReady && shouldLoadVideo} />

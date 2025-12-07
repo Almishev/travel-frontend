@@ -158,8 +158,10 @@ export async function getServerSideProps() {
         newProducts: JSON.parse(JSON.stringify(newProducts)),
         popularDestinations: JSON.parse(JSON.stringify(popularDestinations)),
         heroSettings: {
+          heroMediaType: settingsMap.heroMediaType || 'video',
           heroVideoDesktop: settingsMap.heroVideoDesktop || '',
           heroVideoMobile: settingsMap.heroVideoMobile || '',
+          heroImage: settingsMap.heroImage || '',
           heroTitle: settingsMap.heroTitle || 'Туристическа агенция - Екскурзии и пътувания',
           heroSubtitle: settingsMap.heroSubtitle || 'Организираме разнообразни пътувания и екскурзии за всяка възраст и вкус.',
         },
