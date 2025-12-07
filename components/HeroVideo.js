@@ -252,15 +252,44 @@ export default function HeroVideo({ heroSettings }) {
                       settings.heroImage?.includes('s3.eu-central-1.amazonaws.com') ||
                       settings.heroImage?.includes('amazonaws.com');
     
-    // Debug logging
-    if (typeof window !== 'undefined') {
-      console.log('Hero image settings:', {
-        heroMediaType: settings.heroMediaType,
-        heroImage: settings.heroImage,
-        isS3Image: isS3Image
-      });
+    // За S3 снимки използваме стандартен <img> tag, защото Next.js Image има проблеми в production
+    if (isS3Image) {
+      return (
+        <VideoWrapper ref={videoWrapperRef}>
+          <ImageWrapper>
+            <img
+              src={settings.heroImage}
+              alt={settings.heroTitle}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+              }}
+              onError={(e) => {
+                console.error('Error loading hero image:', settings.heroImage);
+                e.target.style.display = 'none';
+              }}
+              onLoad={() => {
+                console.log('Hero image loaded successfully:', settings.heroImage);
+              }}
+            />
+          </ImageWrapper>
+          <Overlay>
+            <div>
+              <h1>{settings.heroTitle}</h1>
+              <p>{settings.heroSubtitle}</p>
+            </div>
+            <Link href="/trips" passHref legacyBehavior>
+              <ButtonCTA>
+                Разгледайте екскурзиите
+              </ButtonCTA>
+            </Link>
+          </Overlay>
+        </VideoWrapper>
+      );
     }
     
+    // За не-S3 снимки използваме Next.js Image
     return (
       <VideoWrapper ref={videoWrapperRef}>
         <ImageWrapper>
@@ -270,7 +299,6 @@ export default function HeroVideo({ heroSettings }) {
             width={1920}
             height={1080}
             priority
-            unoptimized={isS3Image}
             style={{
               width: '100%',
               height: '100%',
@@ -278,8 +306,6 @@ export default function HeroVideo({ heroSettings }) {
             }}
             onError={(e) => {
               console.error('Error loading hero image:', settings.heroImage);
-              console.error('Error details:', e);
-              // Fallback to black background if image fails to load
               e.target.style.display = 'none';
             }}
             onLoad={() => {
