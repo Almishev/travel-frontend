@@ -271,7 +271,7 @@ export default function TripPage({product}) {
               </PhoneNumber>
               <CTAButtons>
                 <a 
-                  href="tel:+359877382224" 
+                  href="tel:+359896178447" 
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -310,7 +310,7 @@ export default function TripPage({product}) {
                   Обадете се сега
                 </a>
                 <a 
-                  href="viber://chat?number=%2B359877382224" 
+                  href="viber://chat?number=%2B359896178447" 
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
