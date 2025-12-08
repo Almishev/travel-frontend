@@ -15,10 +15,14 @@ export function useScrollAnimation({
   threshold = 0.1,
   duration = '0.6s',
 } = {}) {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true); // Започваме с true за да избегнем hydration mismatch
+  const [isMounted, setIsMounted] = useState(false);
   const elementRef = useRef(null);
 
   useEffect(() => {
+    setIsMounted(true);
+    setIsVisible(false); // След hydration, задаваме false за да започне анимацията
+    
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -71,9 +75,13 @@ export function useScrollAnimation({
     },
   };
 
-  const style = {
+  // Ако не е mounted още, не прилагаме анимация (за SSR)
+  const style = isMounted ? {
     transition: `opacity ${duration} ease-out, transform ${duration} ease-out`,
     ...animationStyles[animation],
+  } : {
+    opacity: 1,
+    transform: 'none',
   };
 
   return { ref: elementRef, isVisible, style };

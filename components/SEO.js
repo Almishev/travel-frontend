@@ -18,7 +18,7 @@ export default function SEO({
     siteUrl = window.location.origin; // Автоматично взима текущия origin (localhost:3000 или production)
   }
   if (!siteUrl) {
-    siteUrl = 'https://travel-frontend-theta-nine.vercel.app'; // Fallback за SSR
+    siteUrl = 'https://www.friendlytravel.eu'; // Fallback за SSR
   }
   const fullUrl = url ? `${siteUrl}${url}` : siteUrl;
   
@@ -37,24 +37,59 @@ export default function SEO({
     fullImage = `${siteUrl}${encodeURI(imagePath)}`;
   }
 
-  // Structured Data за библиотека (Library + LocalBusiness)
+  // Structured Data за туристическа агенция (TravelAgency + LocalBusiness)
   const defaultStructuredData = [
     {
       '@context': 'https://schema.org',
-      '@type': 'TravelAgency',
-      name: 'Туристическа агенция',
+      '@type': ['TravelAgency', 'LocalBusiness'],
+      name: 'Friendly Travel - Туристическа агенция за ученически екскурзии',
+      alternateName: 'Friendly Travel',
+      description: 'Туристическа агенция за училища и ученически екскурзии в Гоце Делчев и Гърмен. Организираме образователни пътувания, зелени училища и групови екскурзии.',
       address: {
         '@type': 'PostalAddress',
         addressLocality: 'Гоце Делчев',
-        addressRegion: 'Гоце Делчев',
+        addressRegion: 'Благоевград',
         addressCountry: 'BG',
         streetAddress: 'град Гоце Делчев',
         postalCode: '2900',
       },
+      areaServed: [
+        {
+          '@type': 'City',
+          name: 'Гоце Делчев'
+        },
+        {
+          '@type': 'City',
+          name: 'Гърмен'
+        },
+        {
+          '@type': 'AdministrativeArea',
+          name: 'Община Гърмен'
+        }
+      ],
       url: siteUrl,
-      description: 'Туристическа агенция, предлагаща екскурзии и пътувания.',
       telephone: '+359 896 178 447',
       email: 'officefriendlytravel@gmail.com',
+      priceRange: '$$',
+      openingHoursSpecification: {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        opens: '09:00',
+        closes: '18:00'
+      },
+      serviceType: [
+        'Ученически екскурзии',
+        'Зелени училища',
+        'Образователни пътувания',
+        'Групови екскурзии',
+        'Екскурзии за училища',
+        'Културно-исторически турове'
+      ],
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '5',
+        reviewCount: '10'
+      }
     },
   ];
 
@@ -68,9 +103,16 @@ export default function SEO({
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta name="language" content="bg" />
       <meta name="geo.region" content="BG-01" />
-      <meta name="geo.placename" content="Гоце Делчев, Гоце Делчев" />
+      <meta name="geo.placename" content="Гоце Делчев, Гърмен, Благоевград" />
       <meta name="geo.position" content="41.5700;23.2800" />
       <meta name="ICBM" content="41.5700, 23.2800" />
+      
+      {/* Допълнителни SEO meta tags */}
+      <meta name="classification" content="Travel Agency, Educational Tours, School Trips" />
+      <meta name="category" content="Туристическа агенция, Ученически екскурзии, Зелени училища" />
+      <meta name="coverage" content="Гоце Делчев, Гърмен, Благоевград, България" />
+      <meta name="distribution" content="Global" />
+      <meta name="target" content="Училища, Ученици, Групи, Образователни институции" />
 
       {/* Open Graph / Facebook / Viber */}
       <meta property="og:type" content={type} />
@@ -89,7 +131,7 @@ export default function SEO({
       
       {/* Допълнителни тагове за Viber и други платформи */}
       <meta name="image" content={fullImage} />
-      <meta itemprop="image" content={fullImage} />
+      <meta itemProp="image" content={fullImage} />
       <link rel="image_src" href={fullImage} />
       
       {/* Viber специфични тагове - важно за изпращане на съобщения */}

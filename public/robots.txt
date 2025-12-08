@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://lms-frontend-virid-kappa.vercel.app/sitemap.xml
+Sitemap: https://www.friendlytravel.eu/sitemap.xml
 
 # Disallow admin pages
 Disallow: /api/

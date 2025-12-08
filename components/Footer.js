@@ -148,10 +148,16 @@ export default function Footer() {
         <FooterContent>
           <FooterSection>
             <Logo>
-              <h2>Туристическа агенция</h2>
-              <p>
+              <h2>Friendly Travel</h2>
+              <p style={{fontWeight: '500', marginBottom: '8px'}}>
+                Туристическа агенция за ученически екскурзии
+              </p>
+              <p style={{fontSize: '0.85rem', marginTop: '0'}}>
                 Организираме разнообразни пътувания и екскурзии за всяка възраст и вкус.
               </p>
+             
+               
+              {/* Social Links - коментирано за сега
               <SocialLinks>
                 <a href="#" title="Facebook">
                   <svg fill="currentColor" viewBox="0 0 24 24">
@@ -169,13 +175,16 @@ export default function Footer() {
                   </svg>
                 </a>
               </SocialLinks>
+              */}
             </Logo>
           </FooterSection>
 
           <FooterSection>
             <h3>Екскурзии</h3>
             <ul>
+            <li><Link href="/school-trips">Ученически екскурзии</Link></li>
               <li><Link href="/trips">Всички екскурзии</Link></li>
+              
               {mainCategories.map(category => (
                 <li key={category._id}>
                   <Link href={`/category/${category._id}`}>{category.name}</Link>
@@ -194,13 +203,20 @@ export default function Footer() {
           </FooterSection>
 
           <FooterSection>
-            <h3>Контакти</h3>
+            <h3>Контакти </h3>
+          
             <ContactInfo>
               <div className="contact-item">
                 <svg fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                 </svg>
                 <span>Гоце Делчев, България</span>
+              </div>
+              <div className="contact-item">
+                <svg fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+                <span>Гърмен, България</span>
               </div>
               <div className="contact-item">
                 <svg fill="currentColor" viewBox="0 0 24 24">

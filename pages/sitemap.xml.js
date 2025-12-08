@@ -3,7 +3,7 @@ import {Product} from "@/models/Product";
 import {Category} from "@/models/Category";
 
 function generateSiteMap(products, categories) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lms-frontend-virid-kappa.vercel.app';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.friendlytravel.eu';
   
   return `<?xml version="1.0" encoding="UTF-8"?>
    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -25,6 +25,16 @@ function generateSiteMap(products, categories) {
      <url>
        <loc>${siteUrl}/destinations</loc>
        <changefreq>weekly</changefreq>
+       <priority>0.8</priority>
+     </url>
+     <url>
+       <loc>${siteUrl}/school-trips</loc>
+       <changefreq>weekly</changefreq>
+       <priority>0.9</priority>
+     </url>
+     <url>
+       <loc>${siteUrl}/about</loc>
+       <changefreq>monthly</changefreq>
        <priority>0.8</priority>
      </url>
      ${categories.map((category) => `
