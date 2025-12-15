@@ -110,7 +110,7 @@ export default function AboutPage() {
           <AnimatedSection ref={introAnimation.ref} style={introAnimation.style}>
             <SectionTitle>Friendly Travel</SectionTitle>
             <Paragraph>
-              Ние сме <strong>специализирана туристическа агенция</strong>,която организира
+              Ние сме <strong>специализирана туристическа агенция</strong>, която организира
                разнообразни ученически екскурзии и зелени училища за училища и групи от цялата страна.
             </Paragraph>
           </AnimatedSection>
