@@ -110,9 +110,8 @@ export default function AboutPage() {
           <AnimatedSection ref={introAnimation.ref} style={introAnimation.style}>
             <SectionTitle>Friendly Travel</SectionTitle>
             <Paragraph>
-              Ние сме <strong>туристическа агенция за ученически екскурзии</strong>, базирана в <strong>община Гърмен</strong> и <strong>Гоце Делчев</strong>, 
-              която предлага разнообразни екскурзии и пътувания за училища, ученици и групи. Специализирани сме в организиране на 
-              <strong> ученически екскурзии</strong>, <strong>зелени училища</strong> и образователни пътувания.
+              Ние сме <strong>специализирана туристическа агенция</strong>,която организира
+               разнообразни ученически екскурзии и зелени училища за училища и групи от цялата страна.
             </Paragraph>
           </AnimatedSection>
 
@@ -173,11 +172,16 @@ export default function AboutPage() {
             <ContactInfo>
               <SectionTitle>Контакти</SectionTitle>
               <Paragraph>
-                <strong>Адрес:</strong> град Гоце Делчев, община Гоце Делчев, България
+                <strong>Адрес:</strong> с. Рибново, община Гърмен, България
               </Paragraph>
               <Paragraph>
-                <strong>Телефон:</strong> +359 896 178 447
+                <strong>Телефон:</strong> 
+                <br />
+                +359 896 270 105
+                <br />
+                +359 896 178 447
               </Paragraph>
+              
               <Paragraph>
                 <strong>Email:</strong> officefriendlytravel@gmail.com
               </Paragraph>
