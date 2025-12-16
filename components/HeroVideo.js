@@ -37,7 +37,7 @@ const ImageWrapper = styled.div`
   justify-content: center;
   background: #000;
   min-height: 400px;
-  height: 65vh;
+  height: 77vh;
   
   @media (max-width: 768px) {
     min-height: 350px;
