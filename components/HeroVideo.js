@@ -146,6 +146,9 @@ const ButtonCTA = styled.a`
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 
                0 0 6px rgba(0, 0, 0, 0.6);
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  white-space: normal;
+  text-align: center;
+  line-height: 1.3;
   
   &::before {
     content: '';
@@ -176,8 +179,9 @@ const ButtonCTA = styled.a`
   }
   
   @media (max-width: 768px) {
-    font-size: 0.9rem;
-    padding: 10px 20px;
+    font-size: 0.85rem;
+    padding: 10px 16px;
+    max-width: 85%;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8), 
                  0 0 4px rgba(0, 0, 0, 0.6);
     
@@ -288,8 +292,8 @@ export default function HeroVideo({ heroSettings }) {
       <VideoWrapper ref={videoWrapperRef}>
         <ImageWrapper style={{ minHeight: '400px', height: '65vh', background: 'linear-gradient(135deg, #b8860b 0%, #daa520 100%)' }}>
           <TextOverlay>
-            <h1>{settings.heroTitle}</h1>
-            <p>{settings.heroSubtitle}</p>
+              <h1>{settings.heroTitle}</h1>
+              <p>{settings.heroSubtitle}</p>
           </TextOverlay>
           <ButtonOverlay>
             <Link href="/trips" passHref legacyBehavior>
@@ -332,8 +336,8 @@ export default function HeroVideo({ heroSettings }) {
             />
           </ImageWrapper>
           <TextOverlay>
-            <h1>{settings.heroTitle}</h1>
-            <p>{settings.heroSubtitle}</p>
+              <h1>{settings.heroTitle}</h1>
+              <p>{settings.heroSubtitle}</p>
           </TextOverlay>
           <ButtonOverlay>
             <Link href="/trips" passHref legacyBehavior>
@@ -371,8 +375,8 @@ export default function HeroVideo({ heroSettings }) {
           />
         </ImageWrapper>
         <TextOverlay>
-          <h1>{settings.heroTitle}</h1>
-          <p>{settings.heroSubtitle}</p>
+            <h1>{settings.heroTitle}</h1>
+            <p>{settings.heroSubtitle}</p>
         </TextOverlay>
         <ButtonOverlay>
           <Link href="/trips" passHref legacyBehavior>
@@ -391,8 +395,8 @@ export default function HeroVideo({ heroSettings }) {
       <VideoWrapper ref={videoWrapperRef}>
         <ImageWrapper style={{ minHeight: '400px', height: '65vh', background: 'linear-gradient(135deg, #b8860b 0%, #daa520 100%)' }}>
           <TextOverlay>
-            <h1>{settings.heroTitle}</h1>
-            <p>{settings.heroSubtitle}</p>
+              <h1>{settings.heroTitle}</h1>
+              <p>{settings.heroSubtitle}</p>
           </TextOverlay>
           <ButtonOverlay>
             <Link href="/trips" passHref legacyBehavior>
@@ -425,8 +429,8 @@ export default function HeroVideo({ heroSettings }) {
         </Video>
       )}
       <TextOverlay>
-        <h1>{settings.heroTitle}</h1>
-        <p>{settings.heroSubtitle}</p>
+          <h1>{settings.heroTitle}</h1>
+          <p>{settings.heroSubtitle}</p>
       </TextOverlay>
       <ButtonOverlay>
         <Link href="/trips" passHref legacyBehavior>
