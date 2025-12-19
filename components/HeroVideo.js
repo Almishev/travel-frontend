@@ -63,18 +63,19 @@ const Poster = styled.div`
   will-change: opacity;
 `;
 
-const Overlay = styled.div`
+const TextOverlay = styled.div`
   position: absolute;
   left: 50%;
-  bottom: 12%;
+  top: 15%;
   transform: translateX(-50%);
   color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   text-align: center;
   max-width: 90%;
+  z-index: 1;
 
   h1 {
     font-size: 40px;
@@ -96,7 +97,8 @@ const Overlay = styled.div`
   }
 
   @media (max-width: 768px) {
-    bottom: 10%;
+    top: 12%;
+    gap: 8px;
     h1 { 
       font-size: 24px;
       text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8), 
@@ -107,6 +109,21 @@ const Overlay = styled.div`
       text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8), 
                    0 0 4px rgba(0, 0, 0, 0.6);
     }
+  }
+`;
+
+const ButtonOverlay = styled.div`
+  position: absolute;
+  left: 50%;
+  bottom: 12%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+
+  @media (max-width: 768px) {
+    bottom: 10%;
   }
 `;
 
@@ -270,17 +287,17 @@ export default function HeroVideo({ heroSettings }) {
     return (
       <VideoWrapper ref={videoWrapperRef}>
         <ImageWrapper style={{ minHeight: '400px', height: '65vh', background: 'linear-gradient(135deg, #b8860b 0%, #daa520 100%)' }}>
-          <Overlay>
-            <div>
-              <h1>{settings.heroTitle}</h1>
-              <p>{settings.heroSubtitle}</p>
-            </div>
+          <TextOverlay>
+            <h1>{settings.heroTitle}</h1>
+            <p>{settings.heroSubtitle}</p>
+          </TextOverlay>
+          <ButtonOverlay>
             <Link href="/trips" passHref legacyBehavior>
               <ButtonCTA>
                 Разгледайте екскурзиите
               </ButtonCTA>
             </Link>
-          </Overlay>
+          </ButtonOverlay>
         </ImageWrapper>
       </VideoWrapper>
     );
@@ -314,17 +331,17 @@ export default function HeroVideo({ heroSettings }) {
               }}
             />
           </ImageWrapper>
-          <Overlay>
-            <div>
-              <h1>{settings.heroTitle}</h1>
-              <p>{settings.heroSubtitle}</p>
-            </div>
+          <TextOverlay>
+            <h1>{settings.heroTitle}</h1>
+            <p>{settings.heroSubtitle}</p>
+          </TextOverlay>
+          <ButtonOverlay>
             <Link href="/trips" passHref legacyBehavior>
               <ButtonCTA>
                 Разгледайте екскурзиите
               </ButtonCTA>
             </Link>
-          </Overlay>
+          </ButtonOverlay>
         </VideoWrapper>
       );
     }
@@ -353,17 +370,17 @@ export default function HeroVideo({ heroSettings }) {
             }}
           />
         </ImageWrapper>
-        <Overlay>
-          <div>
-            <h1>{settings.heroTitle}</h1>
-            <p>{settings.heroSubtitle}</p>
-          </div>
+        <TextOverlay>
+          <h1>{settings.heroTitle}</h1>
+          <p>{settings.heroSubtitle}</p>
+        </TextOverlay>
+        <ButtonOverlay>
           <Link href="/trips" passHref legacyBehavior>
             <ButtonCTA>
               Разгледайте екскурзиите
             </ButtonCTA>
           </Link>
-        </Overlay>
+        </ButtonOverlay>
       </VideoWrapper>
     );
   }
@@ -373,17 +390,17 @@ export default function HeroVideo({ heroSettings }) {
     return (
       <VideoWrapper ref={videoWrapperRef}>
         <ImageWrapper style={{ minHeight: '400px', height: '65vh', background: 'linear-gradient(135deg, #b8860b 0%, #daa520 100%)' }}>
-          <Overlay>
-            <div>
-              <h1>{settings.heroTitle}</h1>
-              <p>{settings.heroSubtitle}</p>
-            </div>
+          <TextOverlay>
+            <h1>{settings.heroTitle}</h1>
+            <p>{settings.heroSubtitle}</p>
+          </TextOverlay>
+          <ButtonOverlay>
             <Link href="/trips" passHref legacyBehavior>
               <ButtonCTA>
                 Разгледайте екскурзиите
               </ButtonCTA>
             </Link>
-          </Overlay>
+          </ButtonOverlay>
         </ImageWrapper>
       </VideoWrapper>
     );
@@ -407,17 +424,17 @@ export default function HeroVideo({ heroSettings }) {
           <source src={currentVideo} type="video/mp4" />
         </Video>
       )}
-      <Overlay>
-        <div>
-          <h1>{settings.heroTitle}</h1>
-          <p>{settings.heroSubtitle}</p>
-        </div>
+      <TextOverlay>
+        <h1>{settings.heroTitle}</h1>
+        <p>{settings.heroSubtitle}</p>
+      </TextOverlay>
+      <ButtonOverlay>
         <Link href="/trips" passHref legacyBehavior>
           <ButtonCTA>
             Разгледайте екскурзиите
           </ButtonCTA>
         </Link>
-      </Overlay>
+      </ButtonOverlay>
     </VideoWrapper>
   );
 }
