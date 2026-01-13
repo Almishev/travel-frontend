@@ -137,7 +137,7 @@ const founders = [
 export default function FoundersSection() {
   return (
     <FoundersContainer>
-      <FoundersTitle>Нашите основатели</FoundersTitle>
+      <FoundersTitle>Нашият екип</FoundersTitle>
       <FoundersGrid>
         {founders.map((founder, index) => (
           <FounderCard key={index}>

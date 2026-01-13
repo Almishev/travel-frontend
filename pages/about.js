@@ -180,6 +180,8 @@ export default function AboutPage() {
                 +359 896 270 105
                 <br />
                 +359 896 178 447
+                <br />
+                +359 895 568 055
               </Paragraph>
               
               <Paragraph>
