@@ -1,5 +1,6 @@
 import Center from "@/components/Center";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import Title from "@/components/Title";
 import {mongooseConnect} from "@/lib/mongoose";
 import {Product} from "@/models/Product";
@@ -262,22 +263,34 @@ export default function TripPage({product}) {
                 Свържете се с нас за резервация или за повече информация за тази екскурзия. Отговаряме бързо и ще помогнем с всичко необходимо!
               </CTAText>
               <PhoneNumber>
-                <IconWrapper>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" style={{width: '24px', height: '24px', color: '#b8860b'}}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102c-.125-.501-.575-.852-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
-                  </svg>
-                </IconWrapper>
-                <PhoneLink href="tel:+359896178447">0896178447</PhoneLink>
+                <div style={{display: 'flex', flexDirection: 'column', gap: '6px'}}>
+                  <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                    <IconWrapper>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" style={{width: '24px', height: '24px', color: '#b8860b'}}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102c-.125-.501-.575-.852-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                      </svg>
+                    </IconWrapper>
+                    <PhoneLink href="tel:+359896270105">0896 270 105</PhoneLink>
+                  </div>
+                  <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                    <IconWrapper>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" style={{width: '24px', height: '24px', color: '#b8860b'}}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102c-.125-.501-.575-.852-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                      </svg>
+                    </IconWrapper>
+                    <PhoneLink href="tel:+359896178447">0896 178 447</PhoneLink>
+                  </div>
+                </div>
               </PhoneNumber>
               <CTAButtons>
                 <a 
-                  href="tel:+359896178447" 
+                  href="tel:+359896270105" 
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    padding: '10px 20px',
-                    fontSize: '1.2rem',
+                    padding: '8px 16px',
+                    fontSize: '1rem',
                     fontWeight: '500',
                     borderRadius: '5px',
                     textDecoration: 'none',
@@ -285,7 +298,7 @@ export default function TripPage({product}) {
                     color: '#000',
                     border: '1px solid #b8860b',
                     flex: '1',
-                    minWidth: '200px',
+                    minWidth: '160px',
                     transition: 'all 0.3s ease',
                     fontFamily: 'Poppins, sans-serif'
                   }}
@@ -307,16 +320,55 @@ export default function TripPage({product}) {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102c-.125-.501-.575-.852-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
                     </svg>
                   </IconWrapper>
-                  Обадете се сега
+                  Обадете се на 0896 270 105
                 </a>
                 <a 
-                  href="viber://chat?number=%2B359896178447" 
+                  href="tel:+359896178447" 
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    padding: '10px 20px',
-                    fontSize: '1.2rem',
+                    padding: '8px 16px',
+                    fontSize: '1rem',
+                    fontWeight: '500',
+                    borderRadius: '5px',
+                    textDecoration: 'none',
+                    backgroundColor: '#b8860b',
+                    color: '#000',
+                    border: '1px solid #b8860b',
+                    flex: '1',
+                    minWidth: '160px',
+                    transition: 'all 0.3s ease',
+                    fontFamily: 'Poppins, sans-serif'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = '#fff';
+                    e.currentTarget.style.filter = 'brightness(1.1)';
+                    e.currentTarget.style.transform = 'translateY(-1px)';
+                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.filter = 'none';
+                    e.currentTarget.style.transform = 'none';
+                    e.currentTarget.style.boxShadow = 'none';
+                    e.currentTarget.style.color = '#000';
+                  }}
+                >
+                  <IconWrapper>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" style={{width: '20px', height: '20px'}}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102c-.125-.501-.575-.852-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                    </svg>
+                  </IconWrapper>
+                  Обадете се на 0896 178 447
+                </a>
+                <a 
+                  href="viber://chat?number=%2B359896270105" 
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '8px 16px',
+                    fontSize: '1rem',
                     fontWeight: '500',
                     borderRadius: '5px',
                     textDecoration: 'none',
@@ -324,7 +376,7 @@ export default function TripPage({product}) {
                     border: 'none',
                     color: 'white',
                     flex: '1',
-                    minWidth: '200px',
+                    minWidth: '160px',
                     transition: 'all 0.3s ease',
                     fontFamily: 'Poppins, sans-serif',
                     boxShadow: '0 4px 12px rgba(102, 92, 172, 0.3)'
@@ -343,7 +395,43 @@ export default function TripPage({product}) {
                       <path d="M12.5 0C5.6 0 0 5.1 0 11.4c0 3.2 1.6 6 4 7.7V24l5.3-2.9c1.4.4 2.9.6 4.2.6 6.9 0 12.5-5.1 12.5-11.4S19.4 0 12.5 0zm6.9 15.4c-.2.6-1.1 1.1-1.5 1.2-.4.1-.9.2-2.1-.4-1.7-.8-3.9-2.7-5.4-4.3-2.1-2.1-3.5-4.6-3.9-5.4-.4-.8-.4-1.2.1-1.6.4-.3.9-.4 1.2-.4.3 0 .6 0 .9.1.3.1.7.4.9.7.2.3.4.7.6 1.1.2.4.3.7.5 1 .2.3.1.6 0 .8-.1.2-.2.4-.4.6-.2.2-.4.5-.6.7-.2.2-.4.4-.2.7.2.3.4.6.8 1 .4.4.8.8 1.2 1.1.5.4 1 .7 1.4.9.4.2.7.2.9 0 .2-.2.4-.5.7-.8.3-.3.6-.5.9-.7.3-.2.6-.1.8 0 .2.1.5.2.7.4.2.2.3.4.4.6.1.2.1.5 0 .7z"/>
                     </svg>
                   </IconWrapper>
-                  Пишете във Viber
+                  Пишете във Viber (0896 270 105)
+                </a>
+                <a 
+                  href="viber://chat?number=%2B359896178447" 
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '8px 16px',
+                    fontSize: '1rem',
+                    fontWeight: '500',
+                    borderRadius: '5px',
+                    textDecoration: 'none',
+                    background: 'linear-gradient(135deg, #665CAC 0%, #7B6FBF 100%)',
+                    border: 'none',
+                    color: 'white',
+                    flex: '1',
+                    minWidth: '160px',
+                    transition: 'all 0.3s ease',
+                    fontFamily: 'Poppins, sans-serif',
+                    boxShadow: '0 4px 12px rgba(102, 92, 172, 0.3)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-1px)';
+                    e.currentTarget.style.boxShadow = '0 6px 20px rgba(102, 92, 172, 0.5)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'none';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(102, 92, 172, 0.3)';
+                  }}
+                >
+                  <IconWrapper>
+                    <svg viewBox="0 0 24 24" fill="white" style={{width: '20px', height: '20px'}}>
+                      <path d="M12.5 0C5.6 0 0 5.1 0 11.4c0 3.2 1.6 6 4 7.7V24l5.3-2.9c1.4.4 2.9.6 4.2.6 6.9 0 12.5-5.1 12.5-11.4S19.4 0 12.5 0zm6.9 15.4c-.2.6-1.1 1.1-1.5 1.2-.4.1-.9.2-2.1-.4-1.7-.8-3.9-2.7-5.4-4.3-2.1-2.1-3.5-4.6-3.9-5.4-.4-.8-.4-1.2.1-1.6.4-.3.9-.4 1.2-.4.3 0 .6 0 .9.1.3.1.7.4.9.7.2.3.4.7.6 1.1.2.4.3.7.5 1 .2.3.1.6 0 .8-.1.2-.2.4-.4.6-.2.2-.4.5-.6.7-.2.2-.4.4-.2.7.2.3.4.6.8 1 .4.4.8.8 1.2 1.1.5.4 1 .7 1.4.9.4.2.7.2.9 0 .2-.2.4-.5.7-.8.3-.3.6-.5.9-.7.3-.2.6-.1.8 0 .2.1.5.2.7.4.2.2.3.4.4.6.1.2.1.5 0 .7z"/>
+                    </svg>
+                  </IconWrapper>
+                  Пишете във Viber (0896 178 447)
                 </a>
               </CTAButtons>
             </CTASection>
@@ -384,6 +472,7 @@ export default function TripPage({product}) {
           </ReviewsGrid>
         </ReviewsSection>
       </Center>
+      <Footer />
     </>
   );
 }
