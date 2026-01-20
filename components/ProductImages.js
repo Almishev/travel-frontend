@@ -5,23 +5,26 @@ import BookPlaceholderIcon from "@/components/BookPlaceholderIcon";
 
 // Image components са заменени с Next.js Image за lazy loading
 const ImageButtons = styled.div`
-    display: flex;
-    gap: 10px;
-    flex-grow: 0;
-    margin-top: 10px;
-  `;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  flex-grow: 0;
+  margin-top: 10px;
+`;
 const ImageButton = styled.div`
-    border: 2px solid #ccc;
-    ${props => props.active ? `
-      border-color: #ccc;
-    ` : `
-      border-color: transparent;
-    `}
-    height: 40px;
-    padding: 2px;
-    cursor: pointer;
-    border-radius: 5px;
-  `;
+  border: 2px solid #ccc;
+  ${props => props.active ? `
+    border-color: #ccc;
+  ` : `
+    border-color: transparent;
+  `}
+  width: 40px;
+  height: 40px;
+  padding: 2px;
+  cursor: pointer;
+  border-radius: 5px;
+  flex: 0 0 40px;
+`;
 const BigImageWrapper = styled.div`
   text-align: center;
 `;
