@@ -82,7 +82,7 @@ export default function CategoryPage({category, products, parentCategory}) {
         title={`${category.name} - Категория екскурзии`}
         description={`Екскурзии в категория "${category.name}". ${products.length} налични.`}
         keywords={`${category.name}, категория, екскурзии, пътувания`}
-        url={`/category/${category._id}`}
+        url={`/category/${category.slug || category._id}`}
         image="/logo.png"
       />
       <Header />
@@ -119,10 +119,17 @@ export default function CategoryPage({category, products, parentCategory}) {
 export async function getServerSideProps(context) {
   try {
     await mongooseConnect();
-    const {id} = context.query;
+    const {slug} = context.query;
     
-    // Взимаме категорията с родителя
-    const category = await Category.findById(id).populate('parent');
+    // Първо опитваме да намерим категорията по slug
+    let category = await Category.findOne({ slug }).populate('parent');
+    
+    // Ако не намери по slug, опитваме по ID (за обратна съвместимост със стари линкове)
+    if (!category) {
+      if (slug && /^[0-9a-fA-F]{24}$/.test(slug)) {
+        category = await Category.findById(slug).populate('parent');
+      }
+    }
     
     if (!category) {
       return {
@@ -135,7 +142,7 @@ export async function getServerSideProps(context) {
     }
     
     // Взимаме продуктите в тази категория
-    const products = await Product.find({category: id});
+    const products = await Product.find({category: category._id}).select('slug title description images destinationCountry destinationCity price currency availableSeats maxSeats category status startDate endDate durationDays travelType isFeatured departureCity');
     
     return {
       props: {
@@ -155,3 +162,4 @@ export async function getServerSideProps(context) {
     };
   }
 }
+

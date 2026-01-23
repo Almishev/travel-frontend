@@ -95,6 +95,7 @@ const Price = styled.div`
 
 export default function ProductBox({
   _id,
+  slug,
   title,
   destinationCountry,
   destinationCity,
@@ -106,7 +107,8 @@ export default function ProductBox({
 }) {
   
   const {addToWishlist, removeFromWishlist, isInWishlist} = useWishlist();
-  const url = '/trip/'+_id;
+  // Винаги използваме slug, ако съществува, иначе fallback към _id
+  const url = '/trip/'+(slug || _id);
   const inWishlist = isInWishlist(_id);
 
   const handleWishlistClick = (e) => {

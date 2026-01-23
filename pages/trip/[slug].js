@@ -198,7 +198,7 @@ export default function TripPage({product}) {
   const breadcrumbs = [
     { name: 'Начало', url: '/' },
     { name: 'Всички екскурзии', url: '/trips' },
-    { name: product.title, url: `/trip/${product._id}` },
+    { name: product.title, url: `/trip/${product.slug || product._id}` },
   ];
 
   return (
@@ -207,7 +207,7 @@ export default function TripPage({product}) {
         title={product.title}
         description={tripDescription}
         image={tripImage}
-        url={`/trip/${product._id}`}
+        url={`/trip/${product.slug || product._id}`}
         breadcrumbs={breadcrumbs}
       />
       <Header />
@@ -479,11 +479,24 @@ export default function TripPage({product}) {
 
 export async function getServerSideProps(context) {
   await mongooseConnect();
-  const {id} = context.query;
-  const product = await Product.findById(id).populate({
+  const {slug} = context.query;
+  
+  // Първо опитваме да намерим по slug
+  let product = await Product.findOne({ slug }).populate({
     path: 'category',
     model: Category,
   });
+  
+  // Ако не намери по slug, опитваме по ID (за обратна съвместимост със стари линкове)
+  if (!product) {
+    // Проверяваме дали slug изглежда като ObjectId (24 символа hex)
+    if (slug && /^[0-9a-fA-F]{24}$/.test(slug)) {
+      product = await Product.findById(slug).populate({
+        path: 'category',
+        model: Category,
+      });
+    }
+  }
   
   if (!product) {
     return {
@@ -497,3 +510,4 @@ export async function getServerSideProps(context) {
     }
   }
 }
+

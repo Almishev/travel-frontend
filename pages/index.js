@@ -100,11 +100,11 @@ export async function getServerSideProps() {
     
     let featuredProduct = null;
     if (featuredProductId) {
-      featuredProduct = await Product.findById(featuredProductId);
+      featuredProduct = await Product.findById(featuredProductId).select('slug title description images destinationCountry destinationCity price currency availableSeats maxSeats category status startDate endDate durationDays travelType isFeatured departureCity');
     }
     
     // Първо опитваме да взимаме акцентираните екскурзии (isFeatured: true)
-    let newProducts = await Product.find({isFeatured: true}, null, {sort: {'_id':-1}, limit:12});
+    let newProducts = await Product.find({isFeatured: true}).select('slug title description images destinationCountry destinationCity price currency availableSeats maxSeats category status startDate endDate durationDays travelType isFeatured departureCity').sort({'_id':-1}).limit(12);
     
     // Ако няма акцентирани екскурзии, показваме 12-те с най-скорошна дата на заминаване
     if (!newProducts || newProducts.length === 0) {
@@ -113,17 +113,11 @@ export async function getServerSideProps() {
       
       newProducts = await Product.find({
         startDate: { $gte: today } // Само екскурзии с дата >= днес
-      }, null, {
-        sort: { startDate: 1 }, // Сортиране по дата възходящо (най-скорошна първа)
-        limit: 12
-      });
+      }).select('slug title description images destinationCountry destinationCity price currency availableSeats maxSeats category status startDate endDate durationDays travelType isFeatured departureCity').sort({ startDate: 1 }).limit(12);
       
       // Ако все още няма с бъдещи дати, взимаме последните 12 добавени
       if (!newProducts || newProducts.length === 0) {
-        newProducts = await Product.find({}, null, {
-          sort: { '_id': -1 },
-          limit: 12
-        });
+        newProducts = await Product.find({}).select('slug title description images destinationCountry destinationCity price currency availableSeats maxSeats category status startDate endDate durationDays travelType isFeatured departureCity').sort({ '_id': -1 }).limit(12);
       }
     }
     

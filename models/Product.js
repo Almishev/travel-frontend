@@ -13,6 +13,7 @@ const ReservationSchema = new Schema({
 const TripSchema = new Schema({
   // Основна информация
   title: { type: String, required: true },                // Име на екскурзията
+  slug: { type: String, unique: true, sparse: true },     // SEO-friendly URL slug
   description: String,
 
   // Дестинация и тръгване

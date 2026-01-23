@@ -72,7 +72,7 @@ export default function CategoriesPage({categories}) {
         ) : (
           <CategoryGrid>
             {categories.map(category => (
-              <CategoryCard key={category._id} href={`/category/${category._id}`}>
+              <CategoryCard key={category._id} href={`/category/${category.slug || category._id}`}>
                 {category.image && (
                   <Image 
                     src={category.image} 

@@ -417,11 +417,7 @@ export async function getServerSideProps({query}) {
     const currentPage = Math.min(page, totalPages);
     const skip = (currentPage - 1) * PAGE_SIZE;
 
-    const trips = await Product.find(mongoQuery, null, {
-      sort: {'_id': -1},
-      skip,
-      limit: PAGE_SIZE,
-    }).lean();
+    const trips = await Product.find(mongoQuery).select('slug title destinationCountry destinationCity price currency availableSeats maxSeats images category status startDate endDate durationDays travelType isFeatured description departureCity').sort({'_id': -1}).skip(skip).limit(PAGE_SIZE).lean();
 
     return {
       props:{

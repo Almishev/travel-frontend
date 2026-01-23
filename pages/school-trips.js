@@ -227,7 +227,7 @@ export default function SchoolTripsPage({schoolTrips}) {
               <SectionTitle>Предложения за ученически екскурзии</SectionTitle>
               <TripsGrid>
                 {schoolTrips.map(trip => (
-                  <Link key={trip._id} href={`/trip/${trip._id}`}>
+                  <Link key={trip._id} href={`/trip/${trip.slug || trip._id}`}>
                     <TripCard>
                       {trip.images?.[0] && (
                         <img 
@@ -292,7 +292,7 @@ export async function getServerSideProps() {
         { description: { $regex: /ученическ|школ|образователн|зелено училище/i } }
       ],
       status: 'published' // Само публикувани екскурзии
-    }).limit(6).lean();
+    }).select('slug title description images destinationCountry destinationCity price currency availableSeats maxSeats category status startDate endDate durationDays travelType isFeatured departureCity').limit(6).lean();
 
     return {
       props: {

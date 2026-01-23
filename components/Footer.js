@@ -189,7 +189,7 @@ export default function Footer() {
               
               {mainCategories.map(category => (
                 <li key={category._id}>
-                  <Link href={`/category/${category._id}`}>{category.name}</Link>
+                  <Link href={`/category/${category.slug || category._id}`}>{category.name}</Link>
                 </li>
               ))}
             </ul>

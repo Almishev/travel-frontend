@@ -39,14 +39,14 @@ function generateSiteMap(products, categories) {
      </url>
      ${categories.map((category) => `
        <url>
-           <loc>${siteUrl}/category/${category._id}</loc>
+           <loc>${siteUrl}/category/${category.slug || category._id}</loc>
            <changefreq>weekly</changefreq>
            <priority>0.7</priority>
        </url>
      `).join('')}
      ${products.map((product) => `
        <url>
-           <loc>${siteUrl}/trip/${product._id}</loc>
+           <loc>${siteUrl}/trip/${product.slug || product._id}</loc>
            <changefreq>monthly</changefreq>
            <priority>0.6</priority>
        </url>
