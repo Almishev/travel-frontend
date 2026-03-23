@@ -201,6 +201,24 @@ export default function Footer() {
               <li><Link href="/about">За нас</Link></li>
               <li><Link href="/privacy-policy">Политика на поверителност</Link></li>
               <li><Link href="/terms">Общи условия</Link></li>
+              <li>
+                <a
+                  href="https://drive.google.com/file/d/1z-lPWtLGme6g1ps_Xnvy_V8GNZwISuO0/view?usp=drive_link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Сертификат за застраховка „Отговорност на туроператора“
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://drive.google.com/file/d/1saK2DYDyQk0drQ_LSfz5php6IKR89CgK/view?usp=drive_link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Удостоверение за регистрация
+                </a>
+              </li>
             </ul>
           </FooterSection>
 
