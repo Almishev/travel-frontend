@@ -25,8 +25,58 @@ const ImageButton = styled.div`
   border-radius: 5px;
   flex: 0 0 40px;
 `;
-const BigImageWrapper = styled.div`
+const BigImageWrapper = styled.button`
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
   text-align: center;
+  cursor: zoom-in;
+`;
+const Overlay = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 16px 24px;
+`;
+const FullImage = styled.img`
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+`;
+const CloseButton = styled.button`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+`;
+const ArrowButton = styled.button`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  ${(props) => (props.$side === "left" ? "left: 16px;" : "right: 16px;")}
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 32px;
+  line-height: 1;
+  cursor: pointer;
 `;
 const PlaceholderWrapper = styled.div`
   width: 100%;
@@ -51,10 +101,36 @@ const InnerPlaceholder = styled.div`
 export default function ProductImages({images = []}) {
   const hasImages = images.length > 0;
   const [activeImage,setActiveImage] = useState(hasImages ? images[0] : null);
+  const [fullscreen, setFullscreen] = useState(false);
 
   useEffect(() => {
     setActiveImage(hasImages ? images[0] : null);
+    setFullscreen(false);
   }, [hasImages, images]);
+
+  useEffect(() => {
+    if (!fullscreen) return undefined;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (event) => {
+      if (event.key === "Escape") setFullscreen(false);
+      if (event.key === "ArrowRight") stepImage(1);
+      if (event.key === "ArrowLeft") stepImage(-1);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [fullscreen, images]);
+
+  function stepImage(direction) {
+    setActiveImage((current) => {
+      const index = images.indexOf(current);
+      const nextIndex = (index + direction + images.length) % images.length;
+      return images[nextIndex];
+    });
+  }
 
   if (!hasImages) {
     return (
@@ -68,7 +144,7 @@ export default function ProductImages({images = []}) {
 
   return (
     <>
-      <BigImageWrapper>
+      <BigImageWrapper type="button" onClick={() => setFullscreen(true)} aria-label="Отвори снимката на цял екран">
         <Image 
           src={activeImage} 
           alt=""
@@ -85,6 +161,42 @@ export default function ProductImages({images = []}) {
           unoptimized={activeImage?.includes('s3.amazonaws.com')}
         />
       </BigImageWrapper>
+      {fullscreen && (
+        <Overlay onClick={() => setFullscreen(false)}>
+          <CloseButton type="button" aria-label="Затвори" onClick={() => setFullscreen(false)}>×</CloseButton>
+          {images.length > 1 && (
+            <ArrowButton
+              type="button"
+              $side="left"
+              aria-label="Предишна снимка"
+              onClick={(event) => {
+                event.stopPropagation();
+                stepImage(-1);
+              }}
+            >
+              ‹
+            </ArrowButton>
+          )}
+          <FullImage
+            src={activeImage}
+            alt=""
+            onClick={(event) => event.stopPropagation()}
+          />
+          {images.length > 1 && (
+            <ArrowButton
+              type="button"
+              $side="right"
+              aria-label="Следваща снимка"
+              onClick={(event) => {
+                event.stopPropagation();
+                stepImage(1);
+              }}
+            >
+              ›
+            </ArrowButton>
+          )}
+        </Overlay>
+      )}
       <ImageButtons>
         {images.map(image => (
           <ImageButton

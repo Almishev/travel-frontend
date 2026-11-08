@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import BarsIcon from "@/components/icons/Bars";
 
 const StyledHeader = styled.header`
-  background-color: #b8860b;
+  background-color: #1B3A4B;
   padding: 2px 0;
   overflow: visible;
 `;
@@ -24,7 +24,7 @@ const HeaderInner = styled.div`
   }
 `;
 const Logo = styled(Link)`
-  color:#000;
+  color:#fff;
   text-decoration:none;
   position: relative;
   z-index: 3;
@@ -39,7 +39,7 @@ const Logo = styled(Link)`
   min-width: 0;
   
   &:hover {
-    color: #fff;
+    color: #b8860b;
   }
   
   @media screen and (max-width: 768px) {
@@ -141,7 +141,7 @@ const MobileNav = styled.nav`
     left: 0;
     right: 0;
     padding: 120px 20px 20px;
-    background-color: #b8860b;
+    background-color: #1B3A4B;
     z-index: 9998;
     overflow-y: auto;
   }
@@ -161,7 +161,7 @@ const StyledNav = styled.nav`
 `;
 const NavLink = styled(Link)`
   display: block;
-  color:#000;
+  color:#fff;
   text-decoration:none;
   padding: 10px 0;
   text-align: center;
@@ -171,7 +171,7 @@ const NavLink = styled(Link)`
   transition: color 0.3s ease, transform 0.2s ease;
   
   &:hover {
-    color: #fff;
+    color: #b8860b;
     transform: translateY(-2px);
   }
   
@@ -180,7 +180,7 @@ const NavLink = styled(Link)`
     font-size: 20px;
     
     &:hover {
-      color: #fff;
+      color: #b8860b;
       transform: none;
     }
   }
@@ -199,7 +199,7 @@ const NavButton = styled.button`
   width: 44px;
   height: 44px;
   border:0;
-  color: #000;
+  color: #fff;
   cursor: pointer;
   display: none;
   align-items: center;
@@ -245,15 +245,15 @@ const UserArea = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  color: #000;
+  color: #fff;
   font-size: 14px;
   
   button {
     background: transparent;
-    border: 1px solid #000;
+    border: 1px solid #fff;
     border-radius: 4px;
     padding: 4px 10px;
-    color: #000;
+    color: #fff;
     cursor: pointer;
     font-size: 13px;
   }
@@ -332,7 +332,7 @@ export default function Header() {
             <NavLink href={'/destinations'} onClick={() => setMobileNavActive(false)}>Дестинации</NavLink>
             <NavLink href={'/account'} onClick={() => setMobileNavActive(false)}>Акаунт</NavLink>
             {isLoggedIn && (
-              <div style={{marginTop: '24px', textAlign: 'center', color: '#000'}}>
+              <div style={{marginTop: '24px', textAlign: 'center', color: '#fff'}}>
                 <div style={{marginBottom: '8px'}}>
                   Здравей, {userName || userEmail}
                 </div>
@@ -343,10 +343,10 @@ export default function Header() {
                   }}
                   style={{
                     background: 'transparent',
-                    border: '1px solid #000',
+                    border: '1px solid #fff',
                     borderRadius: '4px',
                     padding: '6px 14px',
-                    color: '#000',
+                    color: '#fff',
                     fontSize: '14px',
                     cursor: 'pointer',
                   }}

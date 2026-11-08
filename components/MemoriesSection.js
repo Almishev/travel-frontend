@@ -28,9 +28,9 @@ const FilterButtons = styled.div`
 
 const FilterButton = styled.button`
   padding: 10px 24px;
-  border: 2px solid #b8860b;
-  background-color: ${props => props.active ? '#b8860b' : 'transparent'};
-  color: ${props => props.active ? '#000' : '#b8860b'};
+  border: 2px solid #1B3A4B;
+  background-color: ${props => props.active ? '#1B3A4B' : 'transparent'};
+  color: ${props => props.active ? '#fff' : '#1B3A4B'};
   border-radius: 25px;
   font-size: 1rem;
   font-weight: 600;
@@ -39,10 +39,10 @@ const FilterButton = styled.button`
   text-transform: uppercase;
   
   &:hover {
-    background-color: #b8860b;
-    color: #000;
+    background-color: #1B3A4B;
+    color: #fff;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(184, 134, 11, 0.3);
+    box-shadow: 0 4px 12px rgba(27, 58, 75, 0.3);
   }
   
   @media screen and (max-width: 768px) {

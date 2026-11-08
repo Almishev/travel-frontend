@@ -5,8 +5,8 @@ import {useState, useEffect} from "react";
 import axios from "axios";
 
 const StyledFooter = styled.footer`
-  background-color: #b8860b;
-  color: #000;
+  background-color: #1B3A4B;
+  color: #fff;
   padding: 40px 0;
   margin-top: 60px;
 `;
@@ -23,7 +23,7 @@ const FooterContent = styled.div`
 
 const FooterSection = styled.div`
   h3 {
-    color: #000;
+    color: #fff;
     margin-bottom: 15px;
     font-size: 1.1rem;
     font-weight: 600;
@@ -32,7 +32,7 @@ const FooterSection = styled.div`
   p {
     line-height: 1.6;
     margin-bottom: 10px;
-    color: #000;
+    color: #fff;
   }
   
   ul {
@@ -46,19 +46,19 @@ const FooterSection = styled.div`
   }
   
   a {
-    color: #000;
+    color: #fff;
     text-decoration: none;
     transition: color 0.3s ease;
     
     &:hover {
-      color: #fff;
+      color: #b8860b;
     }
   }
 `;
 
 const Logo = styled.div`
   h2 {
-    color: #000;
+    color: #fff;
     margin: 0 0 15px 0;
     font-size: 1.5rem;
     font-weight: 700;
@@ -68,7 +68,7 @@ const Logo = styled.div`
     font-size: 0.9rem;
     line-height: 1.6;
     margin-bottom: 20px;
-    color: #000;
+    color: #fff;
   }
 `;
 
@@ -81,17 +81,17 @@ const SocialLinks = styled.div`
     display: inline-block;
     width: 40px;
     height: 40px;
-    background-color: #000;
+    background-color: #fff;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
-    color: #b8860b;
+    color: #1B3A4B;
     
     &:hover {
-      background-color: #fff;
-      color: #b8860b;
+      background-color: #b8860b;
+      color: #fff;
     }
   }
 `;
@@ -101,13 +101,13 @@ const ContactInfo = styled.div`
     display: flex;
     align-items: flex-start;
     margin-bottom: 10px;
-    color: #000;
+    color: #fff;
     
     svg {
       margin-right: 10px;
       width: 16px;
       height: 16px;
-      color: #000;
+      color: #fff;
       margin-top: 2px;
       flex-shrink: 0;
     }
@@ -115,12 +115,12 @@ const ContactInfo = styled.div`
 `;
 
 const BottomBar = styled.div`
-  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
   margin-top: 40px;
   padding-top: 20px;
   text-align: center;
   font-size: 0.9rem;
-  color: #000;
+    color: #fff;
   
   @media screen and (min-width: 768px) {
     text-align: left;

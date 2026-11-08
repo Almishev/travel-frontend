@@ -268,7 +268,7 @@ export default function HeroVideo({ heroSettings }) {
   if (settings.heroMediaType === 'image' && !settings.heroImage) {
     return (
       <VideoWrapper>
-        <ImageWrapper style={{ minHeight: '400px', height: '65vh', background: 'linear-gradient(135deg, #b8860b 0%, #daa520 100%)' }}>
+        <ImageWrapper style={{ minHeight: '400px', height: '65vh', background: 'linear-gradient(135deg, #1B3A4B 0%, #245068 100%)' }}>
           <TextOverlay>
               <h1>{settings.heroTitle}</h1>
               <p>{settings.heroSubtitle}</p>
@@ -373,7 +373,7 @@ export default function HeroVideo({ heroSettings }) {
   if (!currentVideo && settings.heroMediaType !== 'image') {
     return (
       <VideoWrapper>
-        <ImageWrapper style={{ minHeight: '400px', height: '65vh', background: 'linear-gradient(135deg, #b8860b 0%, #daa520 100%)' }}>
+        <ImageWrapper style={{ minHeight: '400px', height: '65vh', background: 'linear-gradient(135deg, #1B3A4B 0%, #245068 100%)' }}>
           <TextOverlay>
               <h1>{settings.heroTitle}</h1>
               <p>{settings.heroSubtitle}</p>

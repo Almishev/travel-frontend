@@ -17,6 +17,7 @@ const ColWrapper = styled.div`
   grid-template-columns: 1fr;
   @media screen and (min-width: 768px) {
     grid-template-columns: .8fr 1.2fr;
+    align-items: start;
   }
   gap: 40px;
   margin: 40px 0;
@@ -294,9 +295,9 @@ export default function TripPage({product}) {
                     fontWeight: '500',
                     borderRadius: '5px',
                     textDecoration: 'none',
-                    backgroundColor: '#b8860b',
-                    color: '#000',
-                    border: '1px solid #b8860b',
+                    backgroundColor: '#1B3A4B',
+                    color: '#fff',
+                    border: '1px solid #1B3A4B',
                     flex: '1',
                     minWidth: '160px',
                     transition: 'all 0.3s ease',
@@ -312,7 +313,7 @@ export default function TripPage({product}) {
                     e.currentTarget.style.filter = 'none';
                     e.currentTarget.style.transform = 'none';
                     e.currentTarget.style.boxShadow = 'none';
-                    e.currentTarget.style.color = '#000';
+                    e.currentTarget.style.color = '#fff';
                   }}
                 >
                   <IconWrapper>
@@ -333,9 +334,9 @@ export default function TripPage({product}) {
                     fontWeight: '500',
                     borderRadius: '5px',
                     textDecoration: 'none',
-                    backgroundColor: '#b8860b',
-                    color: '#000',
-                    border: '1px solid #b8860b',
+                    backgroundColor: '#1B3A4B',
+                    color: '#fff',
+                    border: '1px solid #1B3A4B',
                     flex: '1',
                     minWidth: '160px',
                     transition: 'all 0.3s ease',
@@ -351,7 +352,7 @@ export default function TripPage({product}) {
                     e.currentTarget.style.filter = 'none';
                     e.currentTarget.style.transform = 'none';
                     e.currentTarget.style.boxShadow = 'none';
-                    e.currentTarget.style.color = '#000';
+                    e.currentTarget.style.color = '#fff';
                   }}
                 >
                   <IconWrapper>

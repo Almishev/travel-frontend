@@ -48,7 +48,7 @@ const LoadingOverlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background: #b8860b;
+  background: #1B3A4B;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -72,15 +72,15 @@ const AnimatedLogo = styled.div`
 const Spinner = styled.div`
   width: 50px;
   height: 50px;
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-top-color: #000;
+  border: 4px solid rgba(255, 255, 255, 0.25);
+  border-top-color: #fff;
   border-radius: 50%;
   animation: ${rotate} 1s linear infinite;
   margin-top: 20px;
 `;
 
 const LoadingText = styled.p`
-  color: #000;
+  color: #fff;
   font-size: 18px;
   font-weight: 600;
   margin: 0;
