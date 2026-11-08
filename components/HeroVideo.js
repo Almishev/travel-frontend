@@ -406,14 +406,12 @@ export default function HeroVideo({ heroSettings }) {
           key={currentVideo}
           onCanPlay={() => {
             const el = videoRef.current;
-            if (el) {
-              const playPromise = el.play();
-              if (playPromise && typeof playPromise.catch === "function") {
-                playPromise.catch(() => {
-                  setVideoReady(true);
-                  markHeroReady();
-                });
-              }
+            if (!el) return;
+            setVideoReady(true);
+            markHeroReady();
+            const playPromise = el.play();
+            if (playPromise && typeof playPromise.catch === "function") {
+              playPromise.catch(() => {});
             }
           }}
           onPlaying={() => {

@@ -4,24 +4,6 @@ import styled, { keyframes } from 'styled-components';
 import Image from 'next/image';
 import { isHeroReady } from '@/lib/heroReady';
 
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`;
-
-const fadeOut = keyframes`
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-`;
-
 const pulse = keyframes`
   0%, 100% {
     transform: scale(1);
@@ -52,9 +34,7 @@ const LoadingOverlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
-  animation: ${props => props.isHiding ? fadeOut : fadeIn} 0.3s ease;
-  pointer-events: ${props => props.isHiding ? 'none' : 'auto'};
+  z-index: 11000;
 `;
 
 const LogoContainer = styled.div`
@@ -88,69 +68,73 @@ const LoadingText = styled.p`
   letter-spacing: 2px;
 `;
 
+function videoIsPlaying() {
+  const video = document.querySelector("video");
+  if (!video) return false;
+  return video.readyState >= 3 || video.currentTime > 0;
+}
+
 export default function LoadingScreen() {
   const [loading, setLoading] = useState(true);
-  const [isHiding, setIsHiding] = useState(false);
   const router = useRouter();
   const landingPath = useRef(router.pathname);
 
   useEffect(() => {
-    const landingHome = landingPath.current === '/';
-    const hasLoadedBefore = sessionStorage.getItem('pageLoaded');
-
-    // На вътрешните страници екранът се показва само при първо отваряне на таба.
-    // Началната страница винаги чака поздравителното видео, включително при refresh.
-    if (!landingHome && hasLoadedBefore) {
-      setLoading(false);
-      return;
+    const landingHome = landingPath.current === "/";
+    let seenBefore = false;
+    try {
+      seenBefore = sessionStorage.getItem("pageLoaded") === "true";
+    } catch (err) {
+      seenBefore = false;
     }
 
-    const minDisplayTime = 500;
-    const maxDisplayTime = landingHome ? 8000 : 1500;
-    const startTime = Date.now();
-    let timer;
-    let finished = false;
+    if (!landingHome && seenBefore) {
+      setLoading(false);
+      return undefined;
+    }
 
-    const finish = () => {
-      if (finished) return;
-      finished = true;
-      clearTimeout(timer);
-      setIsHiding(true);
-      timer = setTimeout(() => {
-        setLoading(false);
-        setIsHiding(false);
-        sessionStorage.setItem('pageLoaded', 'true');
-      }, 200);
+    if (!window.__heroLoaderStarted) {
+      window.__heroLoaderStarted = Date.now();
+    }
+    const startedAt = window.__heroLoaderStarted;
+    let stopped = false;
+
+    const hide = () => {
+      if (stopped) return;
+      stopped = true;
+      setLoading(false);
+      try {
+        sessionStorage.setItem("pageLoaded", "true");
+      } catch (err) {
+        // Ако браузърът блокира хранилището, екранът пак трябва да се махне.
+      }
     };
 
-    const tryHide = () => {
-      clearTimeout(timer);
-      const elapsed = Date.now() - startTime;
-      const ready = landingHome ? isHeroReady() : document.readyState === 'complete';
-
-      if (elapsed >= maxDisplayTime || (ready && elapsed >= minDisplayTime)) {
-        finish();
+    const tick = () => {
+      if (stopped) return;
+      const elapsed = Date.now() - startedAt;
+      if (!landingHome) {
+        if (document.readyState === "complete" || elapsed >= 1500) {
+          hide();
+          return;
+        }
+      } else if (isHeroReady() || videoIsPlaying() || elapsed >= 8000) {
+        hide();
         return;
       }
-
-      const wait = ready ? Math.max(0, minDisplayTime - elapsed) : 50;
-      timer = setTimeout(tryHide, wait);
+      window.requestAnimationFrame(tick);
     };
 
-    const onHeroReady = () => tryHide();
-    window.addEventListener('hero-media-ready', onHeroReady);
-    tryHide();
-
+    tick();
     return () => {
-      window.removeEventListener('hero-media-ready', onHeroReady);
-      clearTimeout(timer);
+      stopped = true;
     };
   }, []);
 
   if (!loading) return null;
 
   return (
-    <LoadingOverlay isHiding={isHiding}>
+    <LoadingOverlay>
       <LogoContainer>
         <AnimatedLogo>
           <Image
