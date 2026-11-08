@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, useRef, useCallback } from "react";
+import { markHeroReady } from "@/lib/heroReady";
 
 const VideoWrapper = styled.div`
   position: relative;
@@ -207,13 +208,10 @@ export default function HeroVideo({ heroSettings }) {
   };
 
   const [settings] = useState(initialSettings);
-  const [currentVideo, setCurrentVideo] = useState(
-    initialSettings.heroVideoDesktop || initialSettings.heroVideoMobile || ''
-  );
+  const [currentVideo, setCurrentVideo] = useState("");
   const [videoReady, setVideoReady] = useState(false);
-  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const videoRef = useRef(null);
-  const videoWrapperRef = useRef(null);
 
   const updateVideoSource = useCallback(() => {
     if (typeof window === 'undefined') return;
@@ -242,6 +240,7 @@ export default function HeroVideo({ heroSettings }) {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     updateVideoSource();
+    setMounted(true);
 
     const handleResize = () => {
       updateVideoSource();
@@ -251,45 +250,24 @@ export default function HeroVideo({ heroSettings }) {
     return () => window.removeEventListener('resize', handleResize);
   }, [updateVideoSource]);
 
-  // Intersection Observer за lazy loading на видеото
   useEffect(() => {
-    if (!videoWrapperRef.current || !currentVideo) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setShouldLoadVideo(true);
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        rootMargin: '50px', // Започваме да зареждаме 50px преди да влезе в viewport
-        threshold: 0.1,
-      }
-    );
-
-    observer.observe(videoWrapperRef.current);
-
-    return () => {
-      if (videoWrapperRef.current) {
-        observer.unobserve(videoWrapperRef.current);
-      }
-    };
+    setVideoReady(false);
   }, [currentVideo]);
 
+  // Няма видео или снимка — началният екран няма какво да чака.
   useEffect(() => {
-    // Update video source when currentVideo changes и когато трябва да се зареди
-    if (videoRef.current && currentVideo && shouldLoadVideo) {
-      videoRef.current.load(); // Reload video with new source
+    if (!mounted) return;
+    const needsVideo = settings.heroMediaType !== 'image' && !!currentVideo;
+    const needsImage = settings.heroMediaType === 'image' && !!settings.heroImage;
+    if (!needsVideo && !needsImage) {
+      markHeroReady();
     }
-  }, [currentVideo, shouldLoadVideo]);
+  }, [mounted, currentVideo, settings.heroMediaType, settings.heroImage]);
 
   // Ако е избран тип 'image' но няма снимка, показваме placeholder
   if (settings.heroMediaType === 'image' && !settings.heroImage) {
     return (
-      <VideoWrapper ref={videoWrapperRef}>
+      <VideoWrapper>
         <ImageWrapper style={{ minHeight: '400px', height: '65vh', background: 'linear-gradient(135deg, #b8860b 0%, #daa520 100%)' }}>
           <TextOverlay>
               <h1>{settings.heroTitle}</h1>
@@ -316,7 +294,7 @@ export default function HeroVideo({ heroSettings }) {
     // За S3 снимки използваме стандартен <img> tag, защото Next.js Image има проблеми в production
     if (isS3Image) {
       return (
-        <VideoWrapper ref={videoWrapperRef}>
+        <VideoWrapper>
           <ImageWrapper>
             <img
               src={settings.heroImage}
@@ -329,9 +307,10 @@ export default function HeroVideo({ heroSettings }) {
               onError={(e) => {
                 console.error('Error loading hero image:', settings.heroImage);
                 e.target.style.display = 'none';
+                markHeroReady();
               }}
               onLoad={() => {
-                console.log('Hero image loaded successfully:', settings.heroImage);
+                markHeroReady();
               }}
             />
           </ImageWrapper>
@@ -352,7 +331,7 @@ export default function HeroVideo({ heroSettings }) {
     
     // За не-S3 снимки използваме Next.js Image
     return (
-      <VideoWrapper ref={videoWrapperRef}>
+      <VideoWrapper>
         <ImageWrapper>
           <Image
             src={settings.heroImage}
@@ -368,9 +347,10 @@ export default function HeroVideo({ heroSettings }) {
             onError={(e) => {
               console.error('Error loading hero image:', settings.heroImage);
               e.target.style.display = 'none';
+              markHeroReady();
             }}
             onLoad={() => {
-              console.log('Hero image loaded successfully:', settings.heroImage);
+              markHeroReady();
             }}
           />
         </ImageWrapper>
@@ -392,7 +372,7 @@ export default function HeroVideo({ heroSettings }) {
   // Ако няма нито видео, нито снимка, показваме placeholder
   if (!currentVideo && settings.heroMediaType !== 'image') {
     return (
-      <VideoWrapper ref={videoWrapperRef}>
+      <VideoWrapper>
         <ImageWrapper style={{ minHeight: '400px', height: '65vh', background: 'linear-gradient(135deg, #b8860b 0%, #daa520 100%)' }}>
           <TextOverlay>
               <h1>{settings.heroTitle}</h1>
@@ -412,18 +392,38 @@ export default function HeroVideo({ heroSettings }) {
 
   // Показваме видео ако е избран тип 'video-desktop' или 'video-mobile'
   return (
-    <VideoWrapper ref={videoWrapperRef}>
-      <Poster hidden={videoReady && shouldLoadVideo} />
-      {currentVideo && shouldLoadVideo && (
+    <VideoWrapper>
+      <Poster hidden={videoReady} />
+      {mounted && currentVideo && (
         <Video
           ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
-          preload="none"
-          key={currentVideo} // Force re-render when video changes
-          onCanPlay={() => setVideoReady(true)}
+          preload="auto"
+          fetchPriority="high"
+          key={currentVideo}
+          onCanPlay={() => {
+            const el = videoRef.current;
+            if (el) {
+              const playPromise = el.play();
+              if (playPromise && typeof playPromise.catch === "function") {
+                playPromise.catch(() => {
+                  setVideoReady(true);
+                  markHeroReady();
+                });
+              }
+            }
+          }}
+          onPlaying={() => {
+            setVideoReady(true);
+            markHeroReady();
+          }}
+          onError={() => {
+            setVideoReady(true);
+            markHeroReady();
+          }}
         >
           <source src={currentVideo} type="video/mp4" />
         </Video>

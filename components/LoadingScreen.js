@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
 import styled, { keyframes } from 'styled-components';
 import Image from 'next/image';
+import { isHeroReady } from '@/lib/heroReady';
 
 const fadeIn = keyframes`
   from {
@@ -89,102 +91,59 @@ const LoadingText = styled.p`
 export default function LoadingScreen() {
   const [loading, setLoading] = useState(true);
   const [isHiding, setIsHiding] = useState(false);
+  const router = useRouter();
+  const landingPath = useRef(router.pathname);
 
   useEffect(() => {
-    // Проверяваме дали това е първоначално зареждане (не навигация)
-    // Ако има sessionStorage ключ, значи вече сме заредили страницата преди
-    const hasLoadedBefore = typeof window !== 'undefined' && sessionStorage.getItem('pageLoaded');
-    
-    if (hasLoadedBefore) {
-      // Ако вече сме заредили страницата, не показваме loading screen
+    const landingHome = landingPath.current === '/';
+    const hasLoadedBefore = sessionStorage.getItem('pageLoaded');
+
+    // На вътрешните страници екранът се показва само при първо отваряне на таба.
+    // Началната страница винаги чака поздравителното видео, включително при refresh.
+    if (!landingHome && hasLoadedBefore) {
       setLoading(false);
       return;
     }
 
-    // Опростена проверка - само дали DOM е готов
-    // Не чакаме всички изображения, за да не забавяме скриването
+    const minDisplayTime = 500;
+    const maxDisplayTime = landingHome ? 8000 : 1500;
+    const startTime = Date.now();
+    let timer;
+    let finished = false;
 
-    // Функция за скриване на loading screen
-    const hideLoading = () => {
-      // Минимално време за показване (за да се види анимацията)
-      const minDisplayTime = 500; // 0.5 секунди (намалено от 0.8s)
-      // Максимално време - принудително скриване след 1.5 секунди (намалено от 3s)
-      const maxDisplayTime = 1500; // 1.5 секунди
-      const startTime = Date.now();
-
-      const tryHide = () => {
-        const elapsed = Date.now() - startTime;
-        // Опростена проверка - само дали DOM е готов, без да чакаме всички изображения
-        const isLoaded = document.readyState === 'complete';
-
-        // Ако е минало максималното време (1.5 секунди), скрий принудително
-        if (elapsed >= maxDisplayTime) {
-          setIsHiding(true);
-          setTimeout(() => {
-            setLoading(false);
-            setIsHiding(false);
-            // Маркираме, че страницата е заредена
-            if (typeof window !== 'undefined') {
-              sessionStorage.setItem('pageLoaded', 'true');
-            }
-          }, 200); // Намалено от 300ms
-          return;
-        }
-
-        // Ако страницата е заредена и е минало минималното време (0.5 секунди)
-        // Скрий веднага, без да чака до 1.5 секунди
-        if (isLoaded && elapsed >= minDisplayTime) {
-          setIsHiding(true);
-          setTimeout(() => {
-            setLoading(false);
-            setIsHiding(false);
-            // Маркираме, че страницата е заредена
-            if (typeof window !== 'undefined') {
-              sessionStorage.setItem('pageLoaded', 'true');
-            }
-          }, 200); // Намалено от 300ms
-          return;
-        }
-
-        // Ако страницата все още не е заредена, провери отново след малко
-        if (!isLoaded) {
-          setTimeout(tryHide, 50); // Намалено от 100ms за по-бърза проверка
-        } else {
-          // Ако е заредена, но не е минало достатъчно време (минималното)
-          setTimeout(tryHide, Math.max(0, minDisplayTime - elapsed));
-        }
-      };
-
-      tryHide();
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      clearTimeout(timer);
+      setIsHiding(true);
+      timer = setTimeout(() => {
+        setLoading(false);
+        setIsHiding(false);
+        sessionStorage.setItem('pageLoaded', 'true');
+      }, 200);
     };
 
-    // Следим за зареждане на страницата
-    const handleLoad = () => {
-      hideLoading();
-    };
+    const tryHide = () => {
+      clearTimeout(timer);
+      const elapsed = Date.now() - startTime;
+      const ready = landingHome ? isHeroReady() : document.readyState === 'complete';
 
-    // Следим за промяна в readyState
-    const handleReadyStateChange = () => {
-      if (document.readyState === 'complete') {
-        hideLoading();
+      if (elapsed >= maxDisplayTime || (ready && elapsed >= minDisplayTime)) {
+        finish();
+        return;
       }
+
+      const wait = ready ? Math.max(0, minDisplayTime - elapsed) : 50;
+      timer = setTimeout(tryHide, wait);
     };
 
-    // Ако страницата вече е заредена при монтиране, започваме проверката
-    if (document.readyState === 'complete') {
-      hideLoading();
-    } else {
-      // Слушаме за зареждане
-      window.addEventListener('load', handleLoad);
-      document.addEventListener('readystatechange', handleReadyStateChange);
-      // Също така започваме проверката веднага (за случай че страницата е бавна)
-      hideLoading();
-    }
+    const onHeroReady = () => tryHide();
+    window.addEventListener('hero-media-ready', onHeroReady);
+    tryHide();
 
-    // Cleanup
     return () => {
-      window.removeEventListener('load', handleLoad);
-      document.removeEventListener('readystatechange', handleReadyStateChange);
+      window.removeEventListener('hero-media-ready', onHeroReady);
+      clearTimeout(timer);
     };
   }, []);
 

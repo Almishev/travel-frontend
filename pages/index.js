@@ -1,4 +1,5 @@
 import { Suspense, lazy } from "react";
+import Head from "next/head";
 import Header from "@/components/Header";
 import Featured from "@/components/Featured";
 import {Product} from "@/models/Product";
@@ -16,9 +17,70 @@ const MemoriesSection = lazy(() => import("@/components/MemoriesSection"));
 const AboutSection = lazy(() => import("@/components/AboutSection"));
 const FAQSection = lazy(() => import("@/components/FAQSection"));
 
+function HeroPreload({ heroSettings }) {
+  if (!heroSettings) return null;
+
+  const mediaType = heroSettings.heroMediaType || "video";
+  if (mediaType === "image" && heroSettings.heroImage) {
+    let origin = "";
+    try {
+      origin = new URL(heroSettings.heroImage).origin;
+    } catch (e) {
+      origin = "";
+    }
+    return (
+      <Head>
+        {origin && <link rel="preconnect" href={origin} crossOrigin="anonymous" />}
+        <link rel="preload" as="image" href={heroSettings.heroImage} />
+      </Head>
+    );
+  }
+
+  if (mediaType === "image") return null;
+
+  const desktop = heroSettings.heroVideoDesktop || "";
+  const mobile = heroSettings.heroVideoMobile || "";
+  const origins = [];
+  [desktop, mobile].forEach((url) => {
+    try {
+      const origin = new URL(url).origin;
+      if (origin && !origins.includes(origin)) origins.push(origin);
+    } catch (e) {
+      // Празен или невалиден адрес — няма какво да се свърже предварително.
+    }
+  });
+
+  return (
+    <Head>
+      {origins.map((origin) => (
+        <link key={origin} rel="preconnect" href={origin} crossOrigin="anonymous" />
+      ))}
+      {desktop && (
+        <link
+          rel="preload"
+          as="video"
+          href={desktop}
+          type="video/mp4"
+          media={mobile ? "(min-width: 769px)" : undefined}
+        />
+      )}
+      {mobile && (
+        <link
+          rel="preload"
+          as="video"
+          href={mobile}
+          type="video/mp4"
+          media={desktop ? "(max-width: 768px)" : undefined}
+        />
+      )}
+    </Head>
+  );
+}
+
 export default function HomePage({featuredProduct,newProducts,popularDestinations, heroSettings}) {
   return (
     <>
+      <HeroPreload heroSettings={heroSettings} />
       <SEO 
         title="Туристическа агенция за ученически екскурзии | Гоце Делчев, Гърмен | Friendly Travel"
         description="Туристическа агенция за училища и ученически екскурзии в Гоце Делчев и Гърмен. Организираме образователни пътувания, зелени училища и групови екскурзии за ученици."
